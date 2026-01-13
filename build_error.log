@@ -1,0 +1,125 @@
+
+> Configure project :app
+WARNING: The option setting 'android.overridePathCheck=true' is experimental.
+The current default is 'false'.
+
+> Task :app:preBuild UP-TO-DATE
+> Task :app:preDebugBuild UP-TO-DATE
+> Task :app:checkDebugAarMetadata UP-TO-DATE
+> Task :app:generateDebugResValues UP-TO-DATE
+> Task :app:mapDebugSourceSetPaths UP-TO-DATE
+> Task :app:generateDebugResources UP-TO-DATE
+> Task :app:mergeDebugResources UP-TO-DATE
+> Task :app:packageDebugResources UP-TO-DATE
+> Task :app:parseDebugLocalResources UP-TO-DATE
+> Task :app:createDebugCompatibleScreenManifests UP-TO-DATE
+> Task :app:extractDeepLinksDebug UP-TO-DATE
+> Task :app:processDebugMainManifest UP-TO-DATE
+> Task :app:processDebugManifest UP-TO-DATE
+> Task :app:processDebugManifestForPackage UP-TO-DATE
+> Task :app:processDebugResources UP-TO-DATE
+> Task :app:compileDebugKotlin NO-SOURCE
+> Task :app:javaPreCompileDebug UP-TO-DATE
+
+> Task :app:compileDebugJavaWithJavac FAILED
+D:\电脑管家迁移文件\xwechat_files\wxid_4pghctnfwv7y22_9896\msg\file\2025-12\RoomieSplit\app\src\main\java\com\example\roomiesplit\ui\MessagesFragment.java:150: 错误: 不兼容的类型: String无法转换为Long
+                call = com.example.roomiesplit.network.RetrofitClient.getApiService().acceptInvitation(token, userId);
+                                                                                                       ^
+D:\电脑管家迁移文件\xwechat_files\wxid_4pghctnfwv7y22_9896\msg\file\2025-12\RoomieSplit\app\src\main\java\com\example\roomiesplit\ui\MessagesFragment.java:152: 错误: 不兼容的类型: String无法转换为Long
+                call = com.example.roomiesplit.network.RetrofitClient.getApiService().rejectInvitation(token, userId);
+                                                                                                       ^
+D:\电脑管家迁移文件\xwechat_files\wxid_4pghctnfwv7y22_9896\msg\file\2025-12\RoomieSplit\app\src\main\java\com\example\roomiesplit\ui\ReportFragment.java:137: 错误: 找不到符号
+                                    String dateStr = tx.has("transactionDate")
+                                                     ^
+  符号: 变量 tx
+D:\电脑管家迁移文件\xwechat_files\wxid_4pghctnfwv7y22_9896\msg\file\2025-12\RoomieSplit\app\src\main\java\com\example\roomiesplit\ui\ReportFragment.java:138: 错误: 找不到符号
+                                            && !tx.get("transactionDate").isJsonNull()
+                                                ^
+  符号: 变量 tx
+D:\电脑管家迁移文件\xwechat_files\wxid_4pghctnfwv7y22_9896\msg\file\2025-12\RoomieSplit\app\src\main\java\com\example\roomiesplit\ui\ReportFragment.java:139: 错误: 找不到符号
+                                                    ? tx.get("transactionDate").getAsString()
+                                                      ^
+  符号: 变量 tx
+D:\电脑管家迁移文件\xwechat_files\wxid_4pghctnfwv7y22_9896\msg\file\2025-12\RoomieSplit\app\src\main\java\com\example\roomiesplit\ui\ReportFragment.java:140: 错误: 找不到符号
+                                                    : (tx.has("date") && !tx.get("date").isJsonNull()
+                                                       ^
+  符号: 变量 tx
+D:\电脑管家迁移文件\xwechat_files\wxid_4pghctnfwv7y22_9896\msg\file\2025-12\RoomieSplit\app\src\main\java\com\example\roomiesplit\ui\ReportFragment.java:140: 错误: 找不到符号
+                                                    : (tx.has("date") && !tx.get("date").isJsonNull()
+                                                                          ^
+  符号: 变量 tx
+D:\电脑管家迁移文件\xwechat_files\wxid_4pghctnfwv7y22_9896\msg\file\2025-12\RoomieSplit\app\src\main\java\com\example\roomiesplit\ui\ReportFragment.java:141: 错误: 找不到符号
+                                                            ? tx.get("date").getAsString()
+                                                              ^
+  符号: 变量 tx
+D:\电脑管家迁移文件\xwechat_files\wxid_4pghctnfwv7y22_9896\msg\file\2025-12\RoomieSplit\app\src\main\java\com\example\roomiesplit\ui\ReportFragment.java:173: 错误: 找不到符号
+                                    double amount = tx.has("amount") ? tx.get("amount").getAsDouble() : 0;
+                                                    ^
+  符号: 变量 tx
+D:\电脑管家迁移文件\xwechat_files\wxid_4pghctnfwv7y22_9896\msg\file\2025-12\RoomieSplit\app\src\main\java\com\example\roomiesplit\ui\ReportFragment.java:173: 错误: 找不到符号
+                                    double amount = tx.has("amount") ? tx.get("amount").getAsDouble() : 0;
+                                                                       ^
+  符号: 变量 tx
+注: 某些消息已经过简化; 请使用 -Xdiags:verbose 重新编译以获得完整输出
+10 个错误
+
+[Incubating] Problems report is available at: file:///D:/%E7%94%B5%E8%84%91%E7%AE%A1%E5%AE%B6%E8%BF%81%E7%A7%BB%E6%96%87%E4%BB%B6/xwechat_files/wxid_4pghctnfwv7y22_9896/msg/file/2025-12/RoomieSplit/build/reports/problems/problems-report.html
+
+FAILURE: Build failed with an exception.
+
+* What went wrong:
+Execution failed for task ':app:compileDebugJavaWithJavac'.
+> Compilation failed; see the compiler output below.
+  D:\电脑管家迁移文件\xwechat_files\wxid_4pghctnfwv7y22_9896\msg\file\2025-12\RoomieSplit\app\src\main\java\com\example\roomiesplit\ui\MessagesFragment.java:150: 错误: 不兼容的类型: String无法转换为Long
+                  call = com.example.roomiesplit.network.RetrofitClient.getApiService().acceptInvitation(token, userId);
+                                                                                                         ^
+  D:\电脑管家迁移文件\xwechat_files\wxid_4pghctnfwv7y22_9896\msg\file\2025-12\RoomieSplit\app\src\main\java\com\example\roomiesplit\ui\MessagesFragment.java:152: 错误: 不兼容的类型: String无法转换为Long
+                  call = com.example.roomiesplit.network.RetrofitClient.getApiService().rejectInvitation(token, userId);
+                                                                                                         ^
+  D:\电脑管家迁移文件\xwechat_files\wxid_4pghctnfwv7y22_9896\msg\file\2025-12\RoomieSplit\app\src\main\java\com\example\roomiesplit\ui\ReportFragment.java:137: 错误: 找不到符号
+                                      String dateStr = tx.has("transactionDate")
+                                                       ^
+    符号: 变量 tx
+  D:\电脑管家迁移文件\xwechat_files\wxid_4pghctnfwv7y22_9896\msg\file\2025-12\RoomieSplit\app\src\main\java\com\example\roomiesplit\ui\ReportFragment.java:138: 错误: 找不到符号
+                                              && !tx.get("transactionDate").isJsonNull()
+                                                  ^
+    符号: 变量 tx
+  D:\电脑管家迁移文件\xwechat_files\wxid_4pghctnfwv7y22_9896\msg\file\2025-12\RoomieSplit\app\src\main\java\com\example\roomiesplit\ui\ReportFragment.java:139: 错误: 找不到符号
+                                                      ? tx.get("transactionDate").getAsString()
+                                                        ^
+    符号: 变量 tx
+  D:\电脑管家迁移文件\xwechat_files\wxid_4pghctnfwv7y22_9896\msg\file\2025-12\RoomieSplit\app\src\main\java\com\example\roomiesplit\ui\ReportFragment.java:140: 错误: 找不到符号
+                                                      : (tx.has("date") && !tx.get("date").isJsonNull()
+                                                         ^
+    符号: 变量 tx
+  D:\电脑管家迁移文件\xwechat_files\wxid_4pghctnfwv7y22_9896\msg\file\2025-12\RoomieSplit\app\src\main\java\com\example\roomiesplit\ui\ReportFragment.java:140: 错误: 找不到符号
+                                                      : (tx.has("date") && !tx.get("date").isJsonNull()
+                                                                            ^
+    符号: 变量 tx
+  D:\电脑管家迁移文件\xwechat_files\wxid_4pghctnfwv7y22_9896\msg\file\2025-12\RoomieSplit\app\src\main\java\com\example\roomiesplit\ui\ReportFragment.java:141: 错误: 找不到符号
+                                                              ? tx.get("date").getAsString()
+                                                                ^
+    符号: 变量 tx
+  D:\电脑管家迁移文件\xwechat_files\wxid_4pghctnfwv7y22_9896\msg\file\2025-12\RoomieSplit\app\src\main\java\com\example\roomiesplit\ui\ReportFragment.java:173: 错误: 找不到符号
+                                      double amount = tx.has("amount") ? tx.get("amount").getAsDouble() : 0;
+                                                      ^
+    符号: 变量 tx
+  D:\电脑管家迁移文件\xwechat_files\wxid_4pghctnfwv7y22_9896\msg\file\2025-12\RoomieSplit\app\src\main\java\com\example\roomiesplit\ui\ReportFragment.java:173: 错误: 找不到符号
+                                      double amount = tx.has("amount") ? tx.get("amount").getAsDouble() : 0;
+                                                                         ^
+    符号: 变量 tx
+  注: 某些消息已经过简化; 请使用 -Xdiags:verbose 重新编译以获得完整输出
+  10 个错误
+
+* Try:
+> Check your code and dependencies to fix the compilation error(s)
+> Run with --scan to get full insights.
+
+Deprecated Gradle features were used in this build, making it incompatible with Gradle 9.0.
+
+You can use '--warning-mode all' to show the individual deprecation warnings and determine if they come from your own scripts or plugins.
+
+For more on this, please refer to https://docs.gradle.org/8.13/userguide/command_line_interface.html#sec:command_line_warnings in the Gradle documentation.
+
+BUILD FAILED in 3s
+14 actionable tasks: 1 executed, 13 up-to-date

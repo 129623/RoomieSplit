@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/navigation_dashboard"
+        android:icon="@drawable/ic_dashboard_24dp"
+        android:title="首页" />
+    <item
+        android:id="@+id/navigation_calendar"
+        android:icon="@drawable/ic_calendar_today_24dp"
+        android:title="日历" />
+    <item
+        android:id="@+id/navigation_debt"
+        android:icon="@drawable/ic_account_balance_wallet_24dp"
+        android:title="债务" />
+    <item
+        android:id="@+id/navigation_messages"
+        android:icon="@drawable/ic_chat_bubble_24dp"
+        android:title="消息" />
+    <item
+        android:id="@+id/navigation_profile"
+        android:icon="@drawable/ic_person_24dp"
+        android:title="我的" />
+</menu>

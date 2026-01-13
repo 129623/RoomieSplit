@@ -1,0 +1,417 @@
+
+> Configure project :app
+WARNING: The option setting 'android.overridePathCheck=true' is experimental.
+The current default is 'false'.
+
+> Task :app:preBuild UP-TO-DATE
+> Task :app:preDebugBuild UP-TO-DATE
+> Task :app:checkDebugAarMetadata UP-TO-DATE
+> Task :app:generateDebugResValues UP-TO-DATE
+> Task :app:mapDebugSourceSetPaths UP-TO-DATE
+> Task :app:generateDebugResources UP-TO-DATE
+> Task :app:mergeDebugResources UP-TO-DATE
+> Task :app:packageDebugResources UP-TO-DATE
+> Task :app:parseDebugLocalResources UP-TO-DATE
+> Task :app:createDebugCompatibleScreenManifests UP-TO-DATE
+> Task :app:extractDeepLinksDebug UP-TO-DATE
+> Task :app:processDebugMainManifest UP-TO-DATE
+> Task :app:processDebugManifest UP-TO-DATE
+> Task :app:processDebugManifestForPackage UP-TO-DATE
+> Task :app:processDebugResources UP-TO-DATE
+> Task :app:compileDebugKotlin NO-SOURCE
+> Task :app:javaPreCompileDebug UP-TO-DATE
+
+> Task :app:compileDebugJavaWithJavac FAILED
+E:\data\roomiesplit\RoomieSplit\app\src\main\java\com\example\roomiesplit\ui\AddBillFragment.java:36: 错误: 找不到符号
+        dateText = view.findViewById(R.id.text_date);
+        ^
+  符号:   变量 dateText
+  位置: 类 AddBillFragment
+E:\data\roomiesplit\RoomieSplit\app\src\main\java\com\example\roomiesplit\ui\AddBillFragment.java:44: 错误: 找不到符号
+        payerText = view.findViewById(R.id.text_payer);
+        ^
+  符号:   变量 payerText
+  位置: 类 AddBillFragment
+E:\data\roomiesplit\RoomieSplit\app\src\main\java\com\example\roomiesplit\ui\AddBillFragment.java:79: 错误: 找不到符号
+            json.addProperty("transactionDate", selectedDate.toString());
+                                                ^
+  符号:   变量 selectedDate
+  位置: 类 AddBillFragment
+E:\data\roomiesplit\RoomieSplit\app\src\main\java\com\example\roomiesplit\ui\AddBillFragment.java:90: 错误: 找不到符号
+                for (com.example.roomiesplit.ui.DashboardFragment.LedgerMember m : members) {
+                                                                                   ^
+  符号:   变量 members
+  位置: 类 AddBillFragment
+E:\data\roomiesplit\RoomieSplit\app\src\main\java\com\example\roomiesplit\ui\AddBillFragment.java:102: 错误: 找不到符号
+                for (com.example.roomiesplit.ui.DashboardFragment.LedgerMember m : members) {
+                                                                                   ^
+  符号:   变量 members
+  位置: 类 AddBillFragment
+E:\data\roomiesplit\RoomieSplit\app\src\main\java\com\example\roomiesplit\ui\AddBillFragment.java:120: 错误: 找不到符号
+                for (com.example.roomiesplit.ui.DashboardFragment.LedgerMember m : members) {
+                                                                                   ^
+  符号:   变量 members
+  位置: 类 AddBillFragment
+E:\data\roomiesplit\RoomieSplit\app\src\main\java\com\example\roomiesplit\ui\AddBillFragment.java:143: 错误: 找不到符号
+                for (com.example.roomiesplit.ui.DashboardFragment.LedgerMember m : members) {
+                                                                                   ^
+  符号:   变量 members
+  位置: 类 AddBillFragment
+E:\data\roomiesplit\RoomieSplit\app\src\main\java\com\example\roomiesplit\ui\AddBillFragment.java:172: 错误: 找不到符号
+            if (selectedPayerId != null) {
+                ^
+  符号:   变量 selectedPayerId
+  位置: 类 AddBillFragment
+E:\data\roomiesplit\RoomieSplit\app\src\main\java\com\example\roomiesplit\ui\AddBillFragment.java:173: 错误: 找不到符号
+                json.addProperty("payerId", selectedPayerId);
+                                            ^
+  符号:   变量 selectedPayerId
+  位置: 类 AddBillFragment
+E:\data\roomiesplit\RoomieSplit\app\src\main\java\com\example\roomiesplit\ui\AddBillFragment.java:302: 错误: 找不到符号
+        if (dateText != null) {
+            ^
+  符号:   变量 dateText
+  位置: 类 AddBillFragment
+E:\data\roomiesplit\RoomieSplit\app\src\main\java\com\example\roomiesplit\ui\AddBillFragment.java:305: 错误: 找不到符号
+            dateText.setText(selectedDate.format(formatter));
+            ^
+  符号:   变量 dateText
+  位置: 类 AddBillFragment
+E:\data\roomiesplit\RoomieSplit\app\src\main\java\com\example\roomiesplit\ui\AddBillFragment.java:305: 错误: 找不到符号
+            dateText.setText(selectedDate.format(formatter));
+                             ^
+  符号:   变量 selectedDate
+  位置: 类 AddBillFragment
+E:\data\roomiesplit\RoomieSplit\app\src\main\java\com\example\roomiesplit\ui\AddBillFragment.java:316: 错误: 找不到符号
+            selectedDate = java.time.Instant.ofEpochMilli(selection).atZone(java.time.ZoneId.systemDefault())
+            ^
+  符号:   变量 selectedDate
+  位置: 类 AddBillFragment
+E:\data\roomiesplit\RoomieSplit\app\src\main\java\com\example\roomiesplit\ui\AddBillFragment.java:324: 错误: 找不到符号
+        if (members.isEmpty()) {
+            ^
+  符号:   变量 members
+  位置: 类 AddBillFragment
+E:\data\roomiesplit\RoomieSplit\app\src\main\java\com\example\roomiesplit\ui\AddBillFragment.java:329: 错误: 找不到符号
+        String[] names = new String[members.size()];
+                                    ^
+  符号:   变量 members
+  位置: 类 AddBillFragment
+E:\data\roomiesplit\RoomieSplit\app\src\main\java\com\example\roomiesplit\ui\AddBillFragment.java:330: 错误: 找不到符号
+        for (int i = 0; i < members.size(); i++) {
+                            ^
+  符号:   变量 members
+  位置: 类 AddBillFragment
+E:\data\roomiesplit\RoomieSplit\app\src\main\java\com\example\roomiesplit\ui\AddBillFragment.java:331: 错误: 找不到符号
+            names[i] = members.get(i).name;
+                       ^
+  符号:   变量 members
+  位置: 类 AddBillFragment
+E:\data\roomiesplit\RoomieSplit\app\src\main\java\com\example\roomiesplit\ui\AddBillFragment.java:337: 错误: 找不到符号
+                    com.example.roomiesplit.ui.DashboardFragment.LedgerMember m = members.get(which);
+                                                                                  ^
+  符号:   变量 members
+  位置: 类 AddBillFragment
+E:\data\roomiesplit\RoomieSplit\app\src\main\java\com\example\roomiesplit\ui\AddBillFragment.java:338: 错误: 找不到符号
+                    selectedPayerId = m.id;
+                    ^
+  符号:   变量 selectedPayerId
+  位置: 类 AddBillFragment
+E:\data\roomiesplit\RoomieSplit\app\src\main\java\com\example\roomiesplit\ui\AddBillFragment.java:339: 错误: 找不到符号
+                    selectedPayerName = m.name;
+                    ^
+  符号:   变量 selectedPayerName
+  位置: 类 AddBillFragment
+E:\data\roomiesplit\RoomieSplit\app\src\main\java\com\example\roomiesplit\ui\AddBillFragment.java:340: 错误: 找不到符号
+                    if (payerText != null)
+                        ^
+  符号:   变量 payerText
+  位置: 类 AddBillFragment
+E:\data\roomiesplit\RoomieSplit\app\src\main\java\com\example\roomiesplit\ui\AddBillFragment.java:341: 错误: 找不到符号
+                        payerText.setText(selectedPayerName);
+                                          ^
+  符号:   变量 selectedPayerName
+  位置: 类 AddBillFragment
+E:\data\roomiesplit\RoomieSplit\app\src\main\java\com\example\roomiesplit\ui\AddBillFragment.java:341: 错误: 找不到符号
+                        payerText.setText(selectedPayerName);
+                        ^
+  符号:   变量 payerText
+  位置: 类 AddBillFragment
+E:\data\roomiesplit\RoomieSplit\app\src\main\java\com\example\roomiesplit\ui\AddBillFragment.java:369: 错误: 找不到符号
+                                members.clear();
+                                ^
+  符号: 变量 members
+E:\data\roomiesplit\RoomieSplit\app\src\main\java\com\example\roomiesplit\ui\AddBillFragment.java:380: 错误: 找不到符号
+                                        members.add(new com.example.roomiesplit.ui.DashboardFragment.LedgerMember(uId,
+                                        ^
+  符号: 变量 members
+E:\data\roomiesplit\RoomieSplit\app\src\main\java\com\example\roomiesplit\ui\AddBillFragment.java:386: 错误: 找不到符号
+                                if (members.isEmpty()) {
+                                    ^
+  符号: 变量 members
+E:\data\roomiesplit\RoomieSplit\app\src\main\java\com\example\roomiesplit\ui\AddBillFragment.java:388: 错误: 找不到符号
+                                    members.add(new com.example.roomiesplit.ui.DashboardFragment.LedgerMember(userId,
+                                    ^
+  符号: 变量 members
+E:\data\roomiesplit\RoomieSplit\app\src\main\java\com\example\roomiesplit\ui\AddBillFragment.java:394: 错误: 找不到符号
+                                if (selectedPayerId != null) {
+                                    ^
+  符号: 变量 selectedPayerId
+E:\data\roomiesplit\RoomieSplit\app\src\main\java\com\example\roomiesplit\ui\AddBillFragment.java:395: 错误: 找不到符号
+                                    for (com.example.roomiesplit.ui.DashboardFragment.LedgerMember m : members) {
+                                                                                                       ^
+  符号: 变量 members
+E:\data\roomiesplit\RoomieSplit\app\src\main\java\com\example\roomiesplit\ui\AddBillFragment.java:396: 错误: 找不到符号
+                                        if (m.id.equals(selectedPayerId)) {
+                                                        ^
+  符号: 变量 selectedPayerId
+E:\data\roomiesplit\RoomieSplit\app\src\main\java\com\example\roomiesplit\ui\AddBillFragment.java:397: 错误: 找不到符号
+                                            selectedPayerName = m.name;
+                                            ^
+  符号: 变量 selectedPayerName
+E:\data\roomiesplit\RoomieSplit\app\src\main\java\com\example\roomiesplit\ui\AddBillFragment.java:404: 错误: 找不到符号
+                                    selectedPayerId = userId;
+                                    ^
+  符号: 变量 selectedPayerId
+E:\data\roomiesplit\RoomieSplit\app\src\main\java\com\example\roomiesplit\ui\AddBillFragment.java:405: 错误: 找不到符号
+                                    selectedPayerName = session.getUsername();
+                                    ^
+  符号: 变量 selectedPayerName
+E:\data\roomiesplit\RoomieSplit\app\src\main\java\com\example\roomiesplit\ui\AddBillFragment.java:407: 错误: 找不到符号
+                                    for (com.example.roomiesplit.ui.DashboardFragment.LedgerMember m : members) {
+                                                                                                       ^
+  符号: 变量 members
+E:\data\roomiesplit\RoomieSplit\app\src\main\java\com\example\roomiesplit\ui\AddBillFragment.java:409: 错误: 找不到符号
+                                            selectedPayerName = m.name;
+                                            ^
+  符号: 变量 selectedPayerName
+E:\data\roomiesplit\RoomieSplit\app\src\main\java\com\example\roomiesplit\ui\AddBillFragment.java:414: 错误: 找不到符号
+                                if (payerText != null)
+                                    ^
+  符号: 变量 payerText
+E:\data\roomiesplit\RoomieSplit\app\src\main\java\com\example\roomiesplit\ui\AddBillFragment.java:415: 错误: 找不到符号
+                                    payerText.setText(selectedPayerName);
+                                                      ^
+  符号: 变量 selectedPayerName
+E:\data\roomiesplit\RoomieSplit\app\src\main\java\com\example\roomiesplit\ui\AddBillFragment.java:415: 错误: 找不到符号
+                                    payerText.setText(selectedPayerName);
+                                    ^
+  符号: 变量 payerText
+E:\data\roomiesplit\RoomieSplit\app\src\main\java\com\example\roomiesplit\ui\AddBillFragment.java:442: 错误: 找不到符号
+        for (com.example.roomiesplit.ui.DashboardFragment.LedgerMember m : members) {
+                                                                           ^
+  符号:   变量 members
+  位置: 类 AddBillFragment
+E:\data\roomiesplit\RoomieSplit\app\src\main\java\com\example\roomiesplit\ui\AddBillFragment.java:538: 错误: 找不到符号
+        for (com.example.roomiesplit.ui.DashboardFragment.LedgerMember m : members) {
+                                                                           ^
+  符号:   变量 members
+  位置: 类 AddBillFragment
+40 个错误
+
+[Incubating] Problems report is available at: file:///E:/data/roomiesplit/RoomieSplit/build/reports/problems/problems-report.html
+
+FAILURE: Build failed with an exception.
+
+* What went wrong:
+Execution failed for task ':app:compileDebugJavaWithJavac'.
+> Compilation failed; see the compiler output below.
+  E:\data\roomiesplit\RoomieSplit\app\src\main\java\com\example\roomiesplit\ui\AddBillFragment.java:36: 错误: 找不到符号
+          dateText = view.findViewById(R.id.text_date);
+          ^
+    符号:   变量 dateText
+    位置: 类 AddBillFragment
+  E:\data\roomiesplit\RoomieSplit\app\src\main\java\com\example\roomiesplit\ui\AddBillFragment.java:44: 错误: 找不到符号
+          payerText = view.findViewById(R.id.text_payer);
+          ^
+    符号:   变量 payerText
+    位置: 类 AddBillFragment
+  E:\data\roomiesplit\RoomieSplit\app\src\main\java\com\example\roomiesplit\ui\AddBillFragment.java:79: 错误: 找不到符号
+              json.addProperty("transactionDate", selectedDate.toString());
+                                                  ^
+    符号:   变量 selectedDate
+    位置: 类 AddBillFragment
+  E:\data\roomiesplit\RoomieSplit\app\src\main\java\com\example\roomiesplit\ui\AddBillFragment.java:90: 错误: 找不到符号
+                  for (com.example.roomiesplit.ui.DashboardFragment.LedgerMember m : members) {
+                                                                                     ^
+    符号:   变量 members
+    位置: 类 AddBillFragment
+  E:\data\roomiesplit\RoomieSplit\app\src\main\java\com\example\roomiesplit\ui\AddBillFragment.java:102: 错误: 找不到符号
+                  for (com.example.roomiesplit.ui.DashboardFragment.LedgerMember m : members) {
+                                                                                     ^
+    符号:   变量 members
+    位置: 类 AddBillFragment
+  E:\data\roomiesplit\RoomieSplit\app\src\main\java\com\example\roomiesplit\ui\AddBillFragment.java:120: 错误: 找不到符号
+                  for (com.example.roomiesplit.ui.DashboardFragment.LedgerMember m : members) {
+                                                                                     ^
+    符号:   变量 members
+    位置: 类 AddBillFragment
+  E:\data\roomiesplit\RoomieSplit\app\src\main\java\com\example\roomiesplit\ui\AddBillFragment.java:143: 错误: 找不到符号
+                  for (com.example.roomiesplit.ui.DashboardFragment.LedgerMember m : members) {
+                                                                                     ^
+    符号:   变量 members
+    位置: 类 AddBillFragment
+  E:\data\roomiesplit\RoomieSplit\app\src\main\java\com\example\roomiesplit\ui\AddBillFragment.java:172: 错误: 找不到符号
+              if (selectedPayerId != null) {
+                  ^
+    符号:   变量 selectedPayerId
+    位置: 类 AddBillFragment
+  E:\data\roomiesplit\RoomieSplit\app\src\main\java\com\example\roomiesplit\ui\AddBillFragment.java:173: 错误: 找不到符号
+                  json.addProperty("payerId", selectedPayerId);
+                                              ^
+    符号:   变量 selectedPayerId
+    位置: 类 AddBillFragment
+  E:\data\roomiesplit\RoomieSplit\app\src\main\java\com\example\roomiesplit\ui\AddBillFragment.java:302: 错误: 找不到符号
+          if (dateText != null) {
+              ^
+    符号:   变量 dateText
+    位置: 类 AddBillFragment
+  E:\data\roomiesplit\RoomieSplit\app\src\main\java\com\example\roomiesplit\ui\AddBillFragment.java:305: 错误: 找不到符号
+              dateText.setText(selectedDate.format(formatter));
+              ^
+    符号:   变量 dateText
+    位置: 类 AddBillFragment
+  E:\data\roomiesplit\RoomieSplit\app\src\main\java\com\example\roomiesplit\ui\AddBillFragment.java:305: 错误: 找不到符号
+              dateText.setText(selectedDate.format(formatter));
+                               ^
+    符号:   变量 selectedDate
+    位置: 类 AddBillFragment
+  E:\data\roomiesplit\RoomieSplit\app\src\main\java\com\example\roomiesplit\ui\AddBillFragment.java:316: 错误: 找不到符号
+              selectedDate = java.time.Instant.ofEpochMilli(selection).atZone(java.time.ZoneId.systemDefault())
+              ^
+    符号:   变量 selectedDate
+    位置: 类 AddBillFragment
+  E:\data\roomiesplit\RoomieSplit\app\src\main\java\com\example\roomiesplit\ui\AddBillFragment.java:324: 错误: 找不到符号
+          if (members.isEmpty()) {
+              ^
+    符号:   变量 members
+    位置: 类 AddBillFragment
+  E:\data\roomiesplit\RoomieSplit\app\src\main\java\com\example\roomiesplit\ui\AddBillFragment.java:329: 错误: 找不到符号
+          String[] names = new String[members.size()];
+                                      ^
+    符号:   变量 members
+    位置: 类 AddBillFragment
+  E:\data\roomiesplit\RoomieSplit\app\src\main\java\com\example\roomiesplit\ui\AddBillFragment.java:330: 错误: 找不到符号
+          for (int i = 0; i < members.size(); i++) {
+                              ^
+    符号:   变量 members
+    位置: 类 AddBillFragment
+  E:\data\roomiesplit\RoomieSplit\app\src\main\java\com\example\roomiesplit\ui\AddBillFragment.java:331: 错误: 找不到符号
+              names[i] = members.get(i).name;
+                         ^
+    符号:   变量 members
+    位置: 类 AddBillFragment
+  E:\data\roomiesplit\RoomieSplit\app\src\main\java\com\example\roomiesplit\ui\AddBillFragment.java:337: 错误: 找不到符号
+                      com.example.roomiesplit.ui.DashboardFragment.LedgerMember m = members.get(which);
+                                                                                    ^
+    符号:   变量 members
+    位置: 类 AddBillFragment
+  E:\data\roomiesplit\RoomieSplit\app\src\main\java\com\example\roomiesplit\ui\AddBillFragment.java:338: 错误: 找不到符号
+                      selectedPayerId = m.id;
+                      ^
+    符号:   变量 selectedPayerId
+    位置: 类 AddBillFragment
+  E:\data\roomiesplit\RoomieSplit\app\src\main\java\com\example\roomiesplit\ui\AddBillFragment.java:339: 错误: 找不到符号
+                      selectedPayerName = m.name;
+                      ^
+    符号:   变量 selectedPayerName
+    位置: 类 AddBillFragment
+  E:\data\roomiesplit\RoomieSplit\app\src\main\java\com\example\roomiesplit\ui\AddBillFragment.java:340: 错误: 找不到符号
+                      if (payerText != null)
+                          ^
+    符号:   变量 payerText
+    位置: 类 AddBillFragment
+  E:\data\roomiesplit\RoomieSplit\app\src\main\java\com\example\roomiesplit\ui\AddBillFragment.java:341: 错误: 找不到符号
+                          payerText.setText(selectedPayerName);
+                                            ^
+    符号:   变量 selectedPayerName
+    位置: 类 AddBillFragment
+  E:\data\roomiesplit\RoomieSplit\app\src\main\java\com\example\roomiesplit\ui\AddBillFragment.java:341: 错误: 找不到符号
+                          payerText.setText(selectedPayerName);
+                          ^
+    符号:   变量 payerText
+    位置: 类 AddBillFragment
+  E:\data\roomiesplit\RoomieSplit\app\src\main\java\com\example\roomiesplit\ui\AddBillFragment.java:369: 错误: 找不到符号
+                                  members.clear();
+                                  ^
+    符号: 变量 members
+  E:\data\roomiesplit\RoomieSplit\app\src\main\java\com\example\roomiesplit\ui\AddBillFragment.java:380: 错误: 找不到符号
+                                          members.add(new com.example.roomiesplit.ui.DashboardFragment.LedgerMember(uId,
+                                          ^
+    符号: 变量 members
+  E:\data\roomiesplit\RoomieSplit\app\src\main\java\com\example\roomiesplit\ui\AddBillFragment.java:386: 错误: 找不到符号
+                                  if (members.isEmpty()) {
+                                      ^
+    符号: 变量 members
+  E:\data\roomiesplit\RoomieSplit\app\src\main\java\com\example\roomiesplit\ui\AddBillFragment.java:388: 错误: 找不到符号
+                                      members.add(new com.example.roomiesplit.ui.DashboardFragment.LedgerMember(userId,
+                                      ^
+    符号: 变量 members
+  E:\data\roomiesplit\RoomieSplit\app\src\main\java\com\example\roomiesplit\ui\AddBillFragment.java:394: 错误: 找不到符号
+                                  if (selectedPayerId != null) {
+                                      ^
+    符号: 变量 selectedPayerId
+  E:\data\roomiesplit\RoomieSplit\app\src\main\java\com\example\roomiesplit\ui\AddBillFragment.java:395: 错误: 找不到符号
+                                      for (com.example.roomiesplit.ui.DashboardFragment.LedgerMember m : members) {
+                                                                                                         ^
+    符号: 变量 members
+  E:\data\roomiesplit\RoomieSplit\app\src\main\java\com\example\roomiesplit\ui\AddBillFragment.java:396: 错误: 找不到符号
+                                          if (m.id.equals(selectedPayerId)) {
+                                                          ^
+    符号: 变量 selectedPayerId
+  E:\data\roomiesplit\RoomieSplit\app\src\main\java\com\example\roomiesplit\ui\AddBillFragment.java:397: 错误: 找不到符号
+                                              selectedPayerName = m.name;
+                                              ^
+    符号: 变量 selectedPayerName
+  E:\data\roomiesplit\RoomieSplit\app\src\main\java\com\example\roomiesplit\ui\AddBillFragment.java:404: 错误: 找不到符号
+                                      selectedPayerId = userId;
+                                      ^
+    符号: 变量 selectedPayerId
+  E:\data\roomiesplit\RoomieSplit\app\src\main\java\com\example\roomiesplit\ui\AddBillFragment.java:405: 错误: 找不到符号
+                                      selectedPayerName = session.getUsername();
+                                      ^
+    符号: 变量 selectedPayerName
+  E:\data\roomiesplit\RoomieSplit\app\src\main\java\com\example\roomiesplit\ui\AddBillFragment.java:407: 错误: 找不到符号
+                                      for (com.example.roomiesplit.ui.DashboardFragment.LedgerMember m : members) {
+                                                                                                         ^
+    符号: 变量 members
+  E:\data\roomiesplit\RoomieSplit\app\src\main\java\com\example\roomiesplit\ui\AddBillFragment.java:409: 错误: 找不到符号
+                                              selectedPayerName = m.name;
+                                              ^
+    符号: 变量 selectedPayerName
+  E:\data\roomiesplit\RoomieSplit\app\src\main\java\com\example\roomiesplit\ui\AddBillFragment.java:414: 错误: 找不到符号
+                                  if (payerText != null)
+                                      ^
+    符号: 变量 payerText
+  E:\data\roomiesplit\RoomieSplit\app\src\main\java\com\example\roomiesplit\ui\AddBillFragment.java:415: 错误: 找不到符号
+                                      payerText.setText(selectedPayerName);
+                                                        ^
+    符号: 变量 selectedPayerName
+  E:\data\roomiesplit\RoomieSplit\app\src\main\java\com\example\roomiesplit\ui\AddBillFragment.java:415: 错误: 找不到符号
+                                      payerText.setText(selectedPayerName);
+                                      ^
+    符号: 变量 payerText
+  E:\data\roomiesplit\RoomieSplit\app\src\main\java\com\example\roomiesplit\ui\AddBillFragment.java:442: 错误: 找不到符号
+          for (com.example.roomiesplit.ui.DashboardFragment.LedgerMember m : members) {
+                                                                             ^
+    符号:   变量 members
+    位置: 类 AddBillFragment
+  E:\data\roomiesplit\RoomieSplit\app\src\main\java\com\example\roomiesplit\ui\AddBillFragment.java:538: 错误: 找不到符号
+          for (com.example.roomiesplit.ui.DashboardFragment.LedgerMember m : members) {
+                                                                             ^
+    符号:   变量 members
+    位置: 类 AddBillFragment
+  40 个错误
+
+* Try:
+> Check your code and dependencies to fix the compilation error(s)
+> Run with --scan to get full insights.
+
+Deprecated Gradle features were used in this build, making it incompatible with Gradle 9.0.
+
+You can use '--warning-mode all' to show the individual deprecation warnings and determine if they come from your own scripts or plugins.
+
+For more on this, please refer to https://docs.gradle.org/8.13/userguide/command_line_interface.html#sec:command_line_warnings in the Gradle documentation.
+
+BUILD FAILED in 2s
+14 actionable tasks: 1 executed, 13 up-to-date

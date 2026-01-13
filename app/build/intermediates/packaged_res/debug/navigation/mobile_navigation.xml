@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mobile_navigation"
+    app:startDestination="@+id/navigation_welcome">
+
+    <fragment
+        android:id="@+id/navigation_dashboard"
+        android:name="com.example.roomiesplit.ui.DashboardFragment"
+        android:label="Dashboard"
+        tools:layout="@layout/fragment_dashboard">
+        <action
+            android:id="@+id/action_dashboard_to_decision"
+            app:destination="@id/navigation_decision" />
+        <action
+            android:id="@+id/action_dashboard_to_report"
+            app:destination="@id/navigation_report" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/navigation_debt"
+        android:name="com.example.roomiesplit.ui.DebtFragment"
+        android:label="Debt"
+        tools:layout="@layout/fragment_debt" />
+
+    <fragment
+        android:id="@+id/navigation_calendar"
+        android:name="com.example.roomiesplit.ui.CalendarFragment"
+        android:label="Calendar"
+        tools:layout="@layout/fragment_calendar" />
+
+    <fragment
+        android:id="@+id/navigation_messages"
+        android:name="com.example.roomiesplit.ui.MessagesFragment"
+        android:label="Messages"
+        tools:layout="@layout/fragment_messages" />
+
+    <fragment
+        android:id="@+id/navigation_profile"
+        android:name="com.example.roomiesplit.ui.ProfileFragment"
+        android:label="Profile"
+        tools:layout="@layout/fragment_profile" />
+    
+    <fragment
+        android:id="@+id/navigation_add_bill"
+        android:name="com.example.roomiesplit.ui.AddBillFragment"
+        android:label="Add Bill"
+        tools:layout="@layout/fragment_add_bill" />
+
+    <fragment
+        android:id="@+id/navigation_welcome"
+        android:name="com.example.roomiesplit.ui.WelcomeFragment"
+        android:label="Welcome"
+        tools:layout="@layout/fragment_welcome">
+        <action
+            android:id="@+id/action_welcome_to_login"
+            app:destination="@id/navigation_login" />
+        <action
+            android:id="@+id/action_welcome_to_register"
+            app:destination="@id/navigation_register" />
+        <action
+            android:id="@+id/action_welcome_to_dashboard"
+            app:destination="@id/navigation_dashboard"
+            app:popUpTo="@id/navigation_welcome"
+            app:popUpToInclusive="true"/>
+    </fragment>
+
+    <fragment
+        android:id="@+id/navigation_login"
+        android:name="com.example.roomiesplit.ui.LoginFragment"
+        android:label="Login"
+        tools:layout="@layout/fragment_login">
+        <action
+            android:id="@+id/action_login_to_dashboard"
+            app:destination="@id/navigation_dashboard"
+            app:popUpTo="@id/navigation_welcome"
+            app:popUpToInclusive="true"/>
+    </fragment>
+
+    <fragment
+        android:id="@+id/navigation_register"
+        android:name="com.example.roomiesplit.ui.RegisterFragment"
+        android:label="Register"
+        tools:layout="@layout/fragment_register">
+        <action
+            android:id="@+id/action_register_to_create_join"
+            app:destination="@id/navigation_create_join"
+            app:popUpTo="@id/navigation_welcome"
+            app:popUpToInclusive="true"/>
+    </fragment>
+
+    <fragment
+        android:id="@+id/navigation_ledger"
+        android:name="com.example.roomiesplit.ui.LedgerFragment"
+        android:label="Ledgers"
+        tools:layout="@layout/fragment_ledger">
+        <action
+            android:id="@+id/action_ledger_to_create_join"
+            app:destination="@id/navigation_create_join" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/navigation_create_join"
+        android:name="com.example.roomiesplit.ui.CreateJoinFragment"
+        android:label="Create Join"
+        tools:layout="@layout/fragment_create_join">
+        <action
+            android:id="@+id/action_create_join_to_dashboard"
+            app:destination="@id/navigation_dashboard"
+            app:popUpTo="@id/navigation_welcome"
+            app:popUpToInclusive="true"/>
+    </fragment>
+
+    <fragment
+        android:id="@+id/navigation_decision"
+        android:name="com.example.roomiesplit.ui.DecisionFragment"
+        android:label="Decision"
+        tools:layout="@layout/fragment_decision"/>
+
+    <fragment
+        android:id="@+id/navigation_report"
+        android:name="com.example.roomiesplit.ui.ReportFragment"
+        android:label="Report"
+        tools:layout="@layout/fragment_report"/>
+
+    <fragment
+        android:id="@+id/navigation_karma"
+        android:name="com.example.roomiesplit.ui.KarmaFragment"
+        android:label="Karma Roulette"
+        tools:layout="@layout/fragment_karma" />
+
+    <action
+        android:id="@+id/action_dashboard_to_karma"
+        app:destination="@id/navigation_karma" />
+
+    <action
+        android:id="@+id/action_global_addBillFragment"
+        app:destination="@id/navigation_add_bill" />
+    
+    <action
+        android:id="@+id/action_global_ledgerFragment"
+        app:destination="@id/navigation_ledger" />
+
+</navigation>

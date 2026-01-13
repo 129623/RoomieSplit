@@ -1,0 +1,41 @@
+
+> Configure project :app
+WARNING: The option setting 'android.overridePathCheck=true' is experimental.
+The current default is 'false'.
+
+> Task :backend:compileJava
+D:\电脑管家迁移文件\xwechat_files\wxid_4pghctnfwv7y22_9896\msg\file\2025-12\RoomieSplit\backend\src\main\java\com\roomiesplit\backend\service\impl\InvitationServiceImpl.java:29: 错误: 找不到符号
+    public Result<?> invite(Long ledgerId, InviteRequest request, Long senderId) {
+                                           ^
+  符号:   类 InviteRequest
+  位置: 类 InvitationServiceImpl
+1 个错误
+
+> Task :backend:compileJava FAILED
+
+[Incubating] Problems report is available at: file:///D:/%E7%94%B5%E8%84%91%E7%AE%A1%E5%AE%B6%E8%BF%81%E7%A7%BB%E6%96%87%E4%BB%B6/xwechat_files/wxid_4pghctnfwv7y22_9896/msg/file/2025-12/RoomieSplit/build/reports/problems/problems-report.html
+
+FAILURE: Build failed with an exception.
+
+* What went wrong:
+Execution failed for task ':backend:compileJava'.
+> Compilation failed; see the compiler output below.
+  D:\电脑管家迁移文件\xwechat_files\wxid_4pghctnfwv7y22_9896\msg\file\2025-12\RoomieSplit\backend\src\main\java\com\roomiesplit\backend\service\impl\InvitationServiceImpl.java:29: 错误: 找不到符号
+      public Result<?> invite(Long ledgerId, InviteRequest request, Long senderId) {
+                                             ^
+    符号:   类 InviteRequest
+    位置: 类 InvitationServiceImpl
+  1 个错误
+
+* Try:
+> Check your code and dependencies to fix the compilation error(s)
+> Run with --scan to get full insights.
+
+Deprecated Gradle features were used in this build, making it incompatible with Gradle 9.0.
+
+You can use '--warning-mode all' to show the individual deprecation warnings and determine if they come from your own scripts or plugins.
+
+For more on this, please refer to https://docs.gradle.org/8.13/userguide/command_line_interface.html#sec:command_line_warnings in the Gradle documentation.
+
+BUILD FAILED in 4s
+1 actionable task: 1 executed
