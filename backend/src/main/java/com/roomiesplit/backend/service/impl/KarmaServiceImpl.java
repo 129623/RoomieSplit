@@ -113,6 +113,17 @@ public class KarmaServiceImpl extends ServiceImpl<KarmaRecordMapper, KarmaRecord
      * @param userId   操作用户ID
      * @return 记录结果
      */
+    @Autowired
+    private com.roomiesplit.backend.service.NotificationService notificationService;
+
+    /**
+     * 记录人品事件 (干活加分)
+     *
+     * @param ledgerId 账本ID
+     * @param request  记录请求，包含增加的积分数
+     * @param userId   操作用户ID
+     * @return 记录结果
+     */
     @Override
     public Result<?> recordWork(Long ledgerId, KarmaWorkRequest request, Long userId) {
         KarmaRecord record = new KarmaRecord();
@@ -123,6 +134,13 @@ public class KarmaServiceImpl extends ServiceImpl<KarmaRecordMapper, KarmaRecord
         record.setCreatedAt(LocalDateTime.now());
 
         this.save(record);
+
+        // Broadcast notification
+        SysUser user = sysUserMapper.selectById(userId);
+        String userName = (user != null) ? user.getDisplayName() : "Unknown";
+        String message = userName + " 主动完成了 " + request.getDescription() + "，人品大爆发！(+" + request.getPoints() + ")";
+
+        notificationService.broadcastNotification(ledgerId, "KARMA", "人品事件", message, null);
 
         return Result.success("人品值已更新", record);
     }
@@ -177,6 +195,10 @@ public class KarmaServiceImpl extends ServiceImpl<KarmaRecordMapper, KarmaRecord
         result.put("winnerName", winnerName);
         result.put("task", request.getTask());
         result.put("message", "命运做出了选择: " + winnerName);
+
+        // Broadcast notification
+        String message = "恭喜 " + winnerName + " 喜提 " + request.getTask() + " 大奖！";
+        notificationService.broadcastNotification(ledgerId, "KARMA", "命运轮盘", message, null);
 
         return Result.success(result);
     }

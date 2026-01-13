@@ -72,4 +72,18 @@ public class NotificationServiceImpl extends ServiceImpl<NotificationMapper, Not
         notification.setCreatedAt(LocalDateTime.now());
         this.save(notification);
     }
+
+    @org.springframework.beans.factory.annotation.Autowired
+    private com.roomiesplit.backend.mapper.LedgerMemberMapper ledgerMemberMapper;
+
+    @Override
+    public void broadcastNotification(Long ledgerId, String type, String title, String message, String actionUrl) {
+        LambdaQueryWrapper<com.roomiesplit.backend.domain.LedgerMember> query = new LambdaQueryWrapper<>();
+        query.eq(com.roomiesplit.backend.domain.LedgerMember::getLedgerId, ledgerId);
+        java.util.List<com.roomiesplit.backend.domain.LedgerMember> members = ledgerMemberMapper.selectList(query);
+
+        for (com.roomiesplit.backend.domain.LedgerMember member : members) {
+            sendNotification(member.getUserId(), type, title, message, actionUrl);
+        }
+    }
 }
