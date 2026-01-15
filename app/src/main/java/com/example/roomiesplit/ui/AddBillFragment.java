@@ -40,6 +40,16 @@ public class AddBillFragment extends Fragment {
         view.findViewById(R.id.btn_save).setOnClickListener(v -> Navigation.findNavController(view).popBackStack());
 
         // Date
+        // Check Arguments
+        if (getArguments() != null && getArguments().containsKey("date")) {
+            String dateStr = getArguments().getString("date");
+            try {
+                selectedDate = java.time.LocalDate.parse(dateStr);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+
         dateText = view.findViewById(R.id.text_date);
         updateDateUI();
         view.findViewById(R.id.container_date).setOnClickListener(v -> showDatePicker());
@@ -64,6 +74,23 @@ public class AddBillFragment extends Fragment {
                 android.view.inputmethod.InputMethodManager imm = (android.view.inputmethod.InputMethodManager) getActivity()
                         .getSystemService(android.content.Context.INPUT_METHOD_SERVICE);
                 imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+            }
+        });
+
+        // Amount Input Listener for Real-time Splitting
+        android.widget.EditText etAmount = view.findViewById(R.id.input_amount);
+        etAmount.addTextChangedListener(new android.text.TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+            }
+
+            @Override
+            public void afterTextChanged(android.text.Editable s) {
+                updateSplits();
             }
         });
 
@@ -96,7 +123,9 @@ public class AddBillFragment extends Fragment {
             json.addProperty("category", selectedCategory);
             json.addProperty("currency", "CNY");
             json.addProperty("splitType", selectedSplitType);
-            json.addProperty("transactionDate", selectedDate.toString());
+            // Backend expects 'date' field mapping to LocalDateTime
+            // We append T00:00:00 to make it parsed as LocalDateTime by Jackson
+            json.addProperty("date", selectedDate.toString() + "T00:00:00");
 
             com.google.gson.JsonArray participantsArray = new com.google.gson.JsonArray();
 
@@ -274,6 +303,7 @@ public class AddBillFragment extends Fragment {
             return;
         v.setBackgroundTintList(android.content.res.ColorStateList.valueOf(active ? ac : ic));
         v.setTextColor(active ? at : it);
+        v.setClickable(true); // 确保可点击
     }
 
     private void setupSplitTypeSelection(View view) {
@@ -339,14 +369,29 @@ public class AddBillFragment extends Fragment {
     }
 
     private void showDatePicker() {
+        // Use user's current time to set default selection if needed, but for selection
+        // output we need safe handling
+        long today = com.google.android.material.datepicker.MaterialDatePicker.todayInUtcMilliseconds();
+
+        // If we have a selectedDate, try to focus it.
+        // Note: selectedDate is LocalDate (system default zone). We need to convert to
+        // UTC millis for the picker.
+        long selection = today;
+        if (selectedDate != null) {
+            selection = selectedDate.atStartOfDay(java.time.ZoneId.of("UTC")).toInstant().toEpochMilli();
+        }
+
         com.google.android.material.datepicker.MaterialDatePicker<Long> picker = com.google.android.material.datepicker.MaterialDatePicker.Builder
                 .datePicker()
-                .setSelection(com.google.android.material.datepicker.MaterialDatePicker.todayInUtcMilliseconds())
+                .setSelection(selection)
                 .build();
 
-        picker.addOnPositiveButtonClickListener(selection -> {
-            selectedDate = java.time.Instant.ofEpochMilli(selection).atZone(java.time.ZoneId.systemDefault())
-                    .toLocalDate();
+        picker.addOnPositiveButtonClickListener(s -> {
+            // MaterialDatePicker returns UTC milliseconds for the start of the day.
+            // When we convert this back to LocalDate, we MUST use UTC to retrieve the
+            // correct calendar date
+            // regardless of the user's local timezone.
+            selectedDate = java.time.Instant.ofEpochMilli(s).atZone(java.time.ZoneId.of("UTC")).toLocalDate();
             updateDateUI();
         });
         picker.show(getParentFragmentManager(), "DATE_PICKER");
@@ -384,75 +429,100 @@ public class AddBillFragment extends Fragment {
         Long userId = session.getUserId();
         Long ledgerId = session.getCurrentLedgerId();
 
-        if (ledgerId == null)
+        if (ledgerId == null) {
+            android.widget.Toast.makeText(getContext(), "未选择账本，无法加载成员", android.widget.Toast.LENGTH_SHORT).show();
             return;
+        }
 
         com.example.roomiesplit.network.RetrofitClient.getApiService().getLedgerDetail(userId, ledgerId)
                 .enqueue(new retrofit2.Callback<com.google.gson.JsonObject>() {
                     @Override
                     public void onResponse(retrofit2.Call<com.google.gson.JsonObject> call,
                             retrofit2.Response<com.google.gson.JsonObject> response) {
-                        if (response.isSuccessful() && response.body() != null) {
-                            com.google.gson.JsonObject body = response.body();
-                            if (body.get("code").getAsInt() == 200) {
-                                com.google.gson.JsonObject data = body.getAsJsonObject("data");
+                        try {
+                            if (response.isSuccessful() && response.body() != null) {
+                                com.google.gson.JsonObject body = response.body();
+                                if (body.has("code") && body.get("code").getAsInt() == 200) {
+                                    com.google.gson.JsonObject data = body.getAsJsonObject("data");
 
-                                members.clear();
+                                    if (data != null) {
+                                        members.clear();
 
-                                // Parse Members
-                                if (data.has("members")) {
-                                    com.google.gson.JsonArray mems = data.getAsJsonArray("members");
-                                    for (int i = 0; i < mems.size(); i++) {
-                                        com.google.gson.JsonObject m = mems.get(i).getAsJsonObject();
-                                        Long uId = m.get("userId").getAsLong();
-                                        String dName = m.has("displayName") && !m.get("displayName").isJsonNull()
-                                                ? m.get("displayName").getAsString()
-                                                : "User " + uId;
-                                        members.add(new com.example.roomiesplit.ui.DashboardFragment.LedgerMember(uId,
-                                                dName));
-                                    }
-                                }
-
-                                // Fallback if empty (shouldn't happen if created correctly, but robust)
-                                if (members.isEmpty()) {
-                                    String myName = session.getUsername();
-                                    members.add(new com.example.roomiesplit.ui.DashboardFragment.LedgerMember(userId,
-                                            myName));
-                                }
-
-                                // Set default payer
-                                boolean payerSet = false;
-                                if (selectedPayerId != null) {
-                                    for (com.example.roomiesplit.ui.DashboardFragment.LedgerMember m : members) {
-                                        if (m.id.equals(selectedPayerId)) {
-                                            selectedPayerName = m.name;
-                                            payerSet = true;
-                                            break;
+                                        // Parse Members
+                                        if (data.has("members")) {
+                                            com.google.gson.JsonArray mems = data.getAsJsonArray("members");
+                                            for (int i = 0; i < mems.size(); i++) {
+                                                com.google.gson.JsonObject m = mems.get(i).getAsJsonObject();
+                                                Long uId = m.get("userId").getAsLong();
+                                                String dName = m.has("displayName")
+                                                        && !m.get("displayName").isJsonNull()
+                                                                ? m.get("displayName").getAsString()
+                                                                : "User " + uId;
+                                                members.add(
+                                                        new com.example.roomiesplit.ui.DashboardFragment.LedgerMember(
+                                                                uId,
+                                                                dName));
+                                            }
                                         }
                                     }
                                 }
-                                if (!payerSet) {
-                                    selectedPayerId = userId;
-                                    selectedPayerName = session.getUsername();
-                                    // Check if I am in members, if so use that name
-                                    for (com.example.roomiesplit.ui.DashboardFragment.LedgerMember m : members) {
-                                        if (m.id.equals(userId)) {
-                                            selectedPayerName = m.name;
-                                            break;
-                                        }
-                                    }
-                                }
-                                if (payerText != null)
-                                    payerText.setText(selectedPayerName);
+                            }
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                            android.widget.Toast.makeText(getContext(), "加载成员出错: " + e.getMessage(),
+                                    android.widget.Toast.LENGTH_SHORT).show();
+                        }
 
-                                // Populate Participants List
-                                populateParticipants();
+                        // Fallback & UI Update
+                        if (members.isEmpty()) {
+                            // If empty, it might mean failure or really no members.
+                            // Warn user if it seems like a failure (api ok but no data?)
+                            // But usually fallback for "Myself"
+                            String myName = session.getUsername();
+                            members.add(new com.example.roomiesplit.ui.DashboardFragment.LedgerMember(userId,
+                                    myName));
+                            android.widget.Toast
+                                    .makeText(getContext(), "未加载到成员，仅显示自己", android.widget.Toast.LENGTH_SHORT).show();
+                        }
+
+                        // Set default payer
+                        boolean payerSet = false;
+                        if (selectedPayerId != null) {
+                            for (com.example.roomiesplit.ui.DashboardFragment.LedgerMember m : members) {
+                                if (m.id.equals(selectedPayerId)) {
+                                    selectedPayerName = m.name;
+                                    payerSet = true;
+                                    break;
+                                }
                             }
                         }
+                        if (!payerSet) {
+                            selectedPayerId = userId;
+                            selectedPayerName = session.getUsername();
+                            // Check if I am in members, if so use that name
+                            for (com.example.roomiesplit.ui.DashboardFragment.LedgerMember m : members) {
+                                if (m.id.equals(userId)) {
+                                    selectedPayerName = m.name;
+                                    break;
+                                }
+                            }
+                        }
+                        if (payerText != null)
+                            payerText.setText(selectedPayerName);
+
+                        // Populate Participants List
+                        populateParticipants();
                     }
 
                     @Override
                     public void onFailure(retrofit2.Call<com.google.gson.JsonObject> call, Throwable t) {
+                        android.widget.Toast.makeText(getContext(), "加载成员失败: 网络错误", android.widget.Toast.LENGTH_SHORT)
+                                .show();
+                        // Fallback
+                        String myName = session.getUsername();
+                        members.add(new com.example.roomiesplit.ui.DashboardFragment.LedgerMember(userId, myName));
+                        populateParticipants();
+                        updatePayerUI();
                     }
                 });
     }
@@ -711,6 +781,8 @@ public class AddBillFragment extends Fragment {
     }
 
     private void createTransaction(Long userId, Long ledgerId, com.google.gson.JsonObject transactionJson, View view) {
+        android.util.Log.d("AddBillFragment", "Creating transaction: " + transactionJson.toString());
+
         com.example.roomiesplit.network.RetrofitClient.getApiService()
                 .createTransaction(userId, ledgerId, transactionJson)
                 .enqueue(new retrofit2.Callback<com.google.gson.JsonObject>() {
@@ -718,13 +790,24 @@ public class AddBillFragment extends Fragment {
                     public void onResponse(retrofit2.Call<com.google.gson.JsonObject> call,
                             retrofit2.Response<com.google.gson.JsonObject> response) {
                         if (response.isSuccessful()) {
+                            android.util.Log.d("AddBillFragment", "Transaction created successfully");
                             android.widget.Toast.makeText(getContext(), "记账成功",
                                     android.widget.Toast.LENGTH_SHORT).show();
                             Navigation.findNavController(view).popBackStack();
                         } else {
+                            String errorMsg = "Failed: " + response.code();
+                            try {
+                                if (response.errorBody() != null) {
+                                    String errorBody = response.errorBody().string();
+                                    android.util.Log.e("AddBillFragment", "Error response: " + errorBody);
+                                    errorMsg += " - " + errorBody;
+                                }
+                            } catch (Exception e) {
+                                android.util.Log.e("AddBillFragment", "Error reading error body", e);
+                            }
                             android.widget.Toast
-                                    .makeText(getContext(), "Failed: " + response.code(),
-                                            android.widget.Toast.LENGTH_SHORT)
+                                    .makeText(getContext(), errorMsg,
+                                            android.widget.Toast.LENGTH_LONG)
                                     .show();
                         }
                     }
@@ -732,8 +815,9 @@ public class AddBillFragment extends Fragment {
                     @Override
                     public void onFailure(retrofit2.Call<com.google.gson.JsonObject> call,
                             Throwable t) {
-                        android.widget.Toast.makeText(getContext(), "Network Error",
-                                android.widget.Toast.LENGTH_SHORT).show();
+                        android.util.Log.e("AddBillFragment", "Network error", t);
+                        android.widget.Toast.makeText(getContext(), "Network Error: " + t.getMessage(),
+                                android.widget.Toast.LENGTH_LONG).show();
                     }
                 });
     }

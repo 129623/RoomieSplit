@@ -90,6 +90,18 @@ public class CalendarFragment extends Fragment {
         fetchMemberData();
         fetchTransactions();
 
+        // Setup Floating Action Button
+        view.findViewById(R.id.fab_add_bill).setOnClickListener(v -> {
+            Bundle bundle = new Bundle();
+            // Format current date as yyyy-MM-dd
+            String dateStr = String.format("%04d-%02d-%02d",
+                    currentDate.get(Calendar.YEAR),
+                    currentDate.get(Calendar.MONTH) + 1,
+                    currentDate.get(Calendar.DAY_OF_MONTH));
+            bundle.putString("date", dateStr);
+            androidx.navigation.Navigation.findNavController(view).navigate(R.id.action_global_addBillFragment, bundle);
+        });
+
         return view;
     }
 
@@ -228,6 +240,7 @@ public class CalendarFragment extends Fragment {
                 days.add(dayObj);
             }
             calendarAdapter.setDays(days);
+            calendarAdapter.setSelectedDate(currentYear, currentMonth, currentDay);
 
             // 2. Prepare Details List for SELECTED Day
             String headerText = (currentMonth + 1) + "月" + currentDay + "日 账单明细";

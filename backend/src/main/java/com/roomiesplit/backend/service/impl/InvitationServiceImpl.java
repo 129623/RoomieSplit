@@ -130,6 +130,14 @@ public class InvitationServiceImpl extends ServiceImpl<InvitationMapper, Invitat
                 "用户 ID:" + userId + " 接受了您的邀请",
                 "");
 
+        // 5. 更新原邀请通知的状态，防止按钮重复显示
+        com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper<com.roomiesplit.backend.domain.Notification> updateNotif = new com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper<>();
+        updateNotif.eq(com.roomiesplit.backend.domain.Notification::getActionUrl, token)
+                .set(com.roomiesplit.backend.domain.Notification::getType, "INVITE_ACCEPTED") // 修改类型
+                .set(com.roomiesplit.backend.domain.Notification::getActionUrl, "") // 清除Token/URL
+                .set(com.roomiesplit.backend.domain.Notification::getMessage, "您已接受邀请，成功加入账本");
+        notificationService.update(updateNotif);
+
         return Result.success("加入成功");
     }
 
@@ -153,6 +161,14 @@ public class InvitationServiceImpl extends ServiceImpl<InvitationMapper, Invitat
         // 更新状态为 REJECTED
         invitation.setStatus("REJECTED");
         this.updateById(invitation);
+
+        // 更新原邀请通知的状态
+        com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper<com.roomiesplit.backend.domain.Notification> updateNotif = new com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper<>();
+        updateNotif.eq(com.roomiesplit.backend.domain.Notification::getActionUrl, token)
+                .set(com.roomiesplit.backend.domain.Notification::getType, "INVITE_REJECTED")
+                .set(com.roomiesplit.backend.domain.Notification::getActionUrl, "")
+                .set(com.roomiesplit.backend.domain.Notification::getMessage, "您已拒绝邀请");
+        notificationService.update(updateNotif);
 
         return Result.success("已拒绝邀请");
     }

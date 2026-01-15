@@ -8,6 +8,9 @@ import retrofit2.http.Header;
 import retrofit2.http.POST;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
+import okhttp3.MultipartBody;
+import retrofit2.http.Multipart;
+import retrofit2.http.Part;
 
 public interface ApiService {
 
@@ -50,6 +53,9 @@ public interface ApiService {
 
         @POST("api/v1/notifications/{id}/read")
         Call<JsonObject> markNotificationRead(@Header("X-User-Id") Long userId, @Path("id") Long notificationId);
+
+        @retrofit2.http.DELETE("api/v1/notifications/{id}")
+        Call<JsonObject> deleteNotification(@Header("X-User-Id") Long userId, @Path("id") Long id);
 
         // --- Poll ---
         @GET("api/v1/ledgers/{id}/polls")
@@ -102,4 +108,17 @@ public interface ApiService {
 
         @POST("api/v1/users/{id}/profile")
         Call<JsonObject> updateUserProfile(@Path("id") Long userId, @Body JsonObject profileRequest);
+
+        @Multipart
+        @POST("api/v1/upload")
+        Call<JsonObject> uploadImage(@Part MultipartBody.Part file);
+
+        @POST("api/v1/settlements/smart")
+        Call<JsonObject> smartSettle(@Body com.google.gson.JsonObject body);
+
+        @POST("api/v1/settlements/confirm")
+        Call<JsonObject> confirmSettlement(@Query("id") Long id);
+
+        @POST("api/v1/settlements/remind")
+        Call<JsonObject> remindPayment(@Body com.google.gson.JsonObject body);
 }

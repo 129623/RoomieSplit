@@ -35,4 +35,16 @@ public class NotificationController {
     public Result<?> markAsRead(@PathVariable Long id, @RequestHeader("X-User-Id") Long userId) {
         return notificationService.markAsRead(id, userId);
     }
+
+    /**
+     * 删除通知
+     *
+     * @param id     通知ID
+     * @param userId 当前用户ID
+     * @return 操作结果
+     */
+    @DeleteMapping("/{id}")
+    public Result<?> deleteNotification(@PathVariable Long id, @RequestHeader("X-User-Id") Long userId) {
+        return notificationService.deleteNotification(id, userId);
+    }
 }

@@ -22,9 +22,10 @@ public class NotificationServiceImpl extends ServiceImpl<NotificationMapper, Not
      */
     @Override
     public Result<?> getMyNotifications(Long userId) {
-        // 查询用户的通知，按时间倒序排列
+        // 查询用户的通知，按时间倒序排列，且只返回未读消息
         LambdaQueryWrapper<Notification> query = new LambdaQueryWrapper<>();
         query.eq(Notification::getUserId, userId)
+                .eq(Notification::getIsRead, false)
                 .orderByDesc(Notification::getCreatedAt);
         return Result.success(this.list(query));
     }
@@ -49,6 +50,19 @@ public class NotificationServiceImpl extends ServiceImpl<NotificationMapper, Not
         notification.setIsRead(true);
         this.updateById(notification);
         return Result.success("已标记为已读");
+    }
+
+    @Override
+    public Result<?> deleteNotification(Long id, Long userId) {
+        Notification notification = this.getById(id);
+        if (notification == null) {
+            return Result.error(404, "通知不存在");
+        }
+        if (!notification.getUserId().equals(userId)) {
+            return Result.error(403, "无权操作");
+        }
+        this.removeById(id);
+        return Result.success("删除成功");
     }
 
     /**

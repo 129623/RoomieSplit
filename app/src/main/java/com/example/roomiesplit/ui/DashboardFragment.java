@@ -128,10 +128,9 @@ public class DashboardFragment extends Fragment {
                                                                         // Setup click listener for switching
                                                                         view.findViewById(R.id.text_room_name)
                                                                                         .setOnClickListener(
-                                                                                                        v -> showSwitchLedgerDialog(
-                                                                                                                        view,
-                                                                                                                        userId,
-                                                                                                                        session));
+                                                                                                        v -> Navigation.findNavController(
+                                                                                                                        view)
+                                                                                                                        .navigate(R.id.action_global_ledgerFragment));
 
                                                                 } else {
                                                                         android.widget.TextView roomName = view
@@ -296,28 +295,56 @@ public class DashboardFragment extends Fragment {
         private void updateRoommatesUI(View view, com.google.gson.JsonArray members, Long myUserId, Long ledgerId) {
                 android.widget.LinearLayout container = view.findViewById(R.id.container_roommates);
 
-                // Try to keep reference to the original invite button
-                android.view.View inviteBtn = null;
-                for (int i = 0; i < container.getChildCount(); i++) {
-                        View child = container.getChildAt(i);
-                        if (child.getId() == R.id.btn_invite_roommate) {
-                                inviteBtn = child;
-                                break;
+                // Find existing Invite Button (could be direct or wrapped)
+                View inviteBtn = container.findViewById(R.id.btn_invite_roommate);
+                View inviteViewToAdd = null;
+
+                if (inviteBtn != null) {
+                        // Check if it's direct child or wrapped
+                        if (inviteBtn.getParent() == container) {
+                                inviteViewToAdd = inviteBtn;
+                        } else if (inviteBtn.getParent() != null && inviteBtn.getParent().getParent() == container) {
+                                inviteViewToAdd = (View) inviteBtn.getParent();
                         }
                 }
-                if (inviteBtn == null) {
-                        inviteBtn = view.findViewById(R.id.btn_invite_roommate);
+
+                if (inviteViewToAdd != null) {
+                        container.removeView(inviteViewToAdd);
+                } else {
+                        // Recreate if not found
+                        View newBtn = android.view.LayoutInflater.from(getContext())
+                                        .inflate(R.layout.item_invite_button, container, false);
+
+                        newBtn.setOnClickListener(v -> {
+                                new InviteRoommateDialogFragment().show(getParentFragmentManager(), "InviteDialog");
+                        });
+                        inviteViewToAdd = newBtn;
                 }
 
-                container.removeAllViews(); // Clear
+                // Identify current members to handle removals
+                java.util.Set<Long> currentMemberIds = new java.util.HashSet<>();
+                if (members != null) {
+                        for (int i = 0; i < members.size(); i++) {
+                                com.google.gson.JsonObject m = members.get(i).getAsJsonObject();
+                                if (m.has("userId"))
+                                        currentMemberIds.add(m.get("userId").getAsLong());
+                        }
+                }
 
-                android.view.LayoutInflater inflater = android.view.LayoutInflater.from(getContext());
+                // Remove obsolete member views (and original XML static placeholders)
+                for (int i = container.getChildCount() - 1; i >= 0; i--) {
+                        View child = container.getChildAt(i);
+                        Object tag = child.getTag();
+                        // If tag is not a Long (it's a placeholder) or it IS a Long but not in current
+                        // members -> Remove it
+                        if (!(tag instanceof Long) || !currentMemberIds.contains((Long) tag)) {
+                                container.removeViewAt(i);
+                        }
+                }
 
                 if (members != null) {
                         for (int i = 0; i < members.size(); i++) {
                                 com.google.gson.JsonObject m = members.get(i).getAsJsonObject();
-
-                                // Check needed fields
                                 if (!m.has("userId") || !m.has("displayName"))
                                         continue;
 
@@ -327,68 +354,62 @@ public class DashboardFragment extends Fragment {
                                                 ? m.get("memberStatus").getAsString()
                                                 : "AVAILABLE";
 
-                                View item = inflater.inflate(R.layout.item_roommate_status, container, false);
+                                int color = getStatusColor(status);
 
-                                View bg = item.findViewById(R.id.view_status_bg);
-                                android.widget.TextView tv = item.findViewById(R.id.text_initials);
-                                android.widget.ImageView avatarImg = item.findViewById(R.id.image_avatar);
+                                // Find existing view
+                                View item = container.findViewWithTag(uId);
+                                boolean isNew = (item == null);
 
-                                int color = 0xFF4CAF50;
-                                if ("BUSY".equals(status))
-                                        color = 0xFFF44336;
-                                else if ("AWAY".equals(status))
-                                        color = 0xFFFF9800;
-                                else if ("ASLEEP".equals(status))
-                                        color = 0xFF9E9E9E;
+                                if (isNew) {
+                                        item = android.view.LayoutInflater.from(getContext())
+                                                        .inflate(R.layout.item_roommate_status, container, false);
+                                        item.setTag(uId);
+                                        container.addView(item); // Simple append
 
-                                bg.setBackgroundColor(color);
+                                        // Initialize Click Listener
+                                        item.setOnClickListener(v -> {
+                                                if (uId.equals(myUserId)) {
+                                                        StatusSelectionDialogFragment dialog = StatusSelectionDialogFragment
+                                                                        .newInstance(ledgerId);
+                                                        dialog.setListener(() -> loadDashboardStats(myUserId, ledgerId,
+                                                                        view));
+                                                        dialog.show(getParentFragmentManager(), "StatusSelect");
+                                                } else {
+                                                        android.widget.Toast.makeText(getContext(),
+                                                                        name + ": " + status,
+                                                                        android.widget.Toast.LENGTH_SHORT).show();
+                                                }
+                                        });
+                                }
 
-                                // Load user avatar
-                                loadUserAvatar(uId, avatarImg, tv, bg, name, color);
+                                // Always update status indicator
+                                View bg = item.findViewById(R.id.view_status_indicator);
+                                if (bg != null)
+                                        bg.setBackgroundColor(color);
 
-                                item.setOnClickListener(v -> {
-                                        if (uId.equals(myUserId)) {
-                                                StatusSelectionDialogFragment dialog = StatusSelectionDialogFragment
-                                                                .newInstance(ledgerId);
-                                                dialog.setListener(() -> loadDashboardStats(myUserId, ledgerId, view));
-                                                dialog.show(getParentFragmentManager(), "StatusSelect");
-                                        } else {
-                                                android.widget.Toast.makeText(getContext(), name + ": " + status,
-                                                                android.widget.Toast.LENGTH_SHORT).show();
-                                        }
-                                });
-
-                                container.addView(item);
+                                // Only load avatar if new (to avoid flicker)
+                                if (isNew) {
+                                        loadUserAvatar(uId, item.findViewById(R.id.image_avatar),
+                                                        item.findViewById(R.id.text_initials),
+                                                        item.findViewById(R.id.view_avatar_bg), name, color);
+                                }
                         }
                 }
 
-                // Add Invite Button Back
-                if (inviteBtn != null) {
-                        if (inviteBtn.getParent() != null) {
-                                ((ViewGroup) inviteBtn.getParent()).removeView(inviteBtn);
-                        }
-                        container.addView(inviteBtn);
-                } else {
-                        // Recreate if lost
-                        android.widget.ImageView newBtn = new android.widget.ImageView(getContext());
-                        newBtn.setId(R.id.btn_invite_roommate);
-                        newBtn.setImageResource(R.drawable.ic_add_24dp);
-                        newBtn.setColorFilter(android.graphics.Color.WHITE);
-                        newBtn.setBackgroundResource(R.drawable.ic_launcher_background);
-                        newBtn.setBackgroundTintList(android.content.res.ColorStateList.valueOf(0xFF757575));
-                        newBtn.setPadding(32, 32, 32, 32);
-                        newBtn.setScaleType(android.widget.ImageView.ScaleType.CENTER);
-
-                        android.widget.LinearLayout.LayoutParams params = new android.widget.LinearLayout.LayoutParams(
-                                        120, 120);
-                        params.setMargins(16, 0, 0, 0);
-                        newBtn.setLayoutParams(params);
-
-                        newBtn.setOnClickListener(v -> {
-                                new InviteRoommateDialogFragment().show(getParentFragmentManager(), "InviteDialog");
-                        });
-                        container.addView(newBtn);
+                // Add Invite Button at the end
+                if (inviteViewToAdd != null) {
+                        container.addView(inviteViewToAdd);
                 }
+        }
+
+        private int getStatusColor(String status) {
+                if ("BUSY".equals(status))
+                        return 0xFFF44336;
+                if ("AWAY".equals(status))
+                        return 0xFFFF9800;
+                if ("ASLEEP".equals(status))
+                        return 0xFF9E9E9E;
+                return 0xFF4CAF50; // AVAILABLE
         }
 
         private void loadUserAvatar(Long userId, android.widget.ImageView avatarImg,
@@ -445,10 +466,16 @@ public class DashboardFragment extends Fragment {
                                                                                                 avatarColor = 0xFFE91E63;
                                                                                                 break;
                                                                                         default:
-                                                                                                avatarColor = statusColor;
+                                                                                                // Use a neutral gray if
+                                                                                                // not matched, instead
+                                                                                                // of statusColor
+                                                                                                avatarColor = 0xFF757575;
                                                                                 }
                                                                                 // Override background with avatar color
                                                                                 bgView.setBackgroundColor(avatarColor);
+                                                                                avatarImg.setVisibility(View.GONE);
+                                                                                textInitials.setVisibility(
+                                                                                                View.VISIBLE);
                                                                         }
                                                                 }
                                                         }
@@ -458,7 +485,10 @@ public class DashboardFragment extends Fragment {
                                         @Override
                                         public void onFailure(retrofit2.Call<com.google.gson.JsonObject> call,
                                                         Throwable t) {
-                                                // Just keep showing the initial
+                                                // Just keep showing the initial with default gray background
+                                                bgView.setBackgroundColor(0xFF757575);
+                                                avatarImg.setVisibility(View.GONE);
+                                                textInitials.setVisibility(View.VISIBLE);
                                         }
                                 });
         }

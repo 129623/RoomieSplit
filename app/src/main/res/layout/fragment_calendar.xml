@@ -104,4 +104,17 @@
         <!-- Note: We might need to create item_transaction layout if not exists, 
              or use a simple textview for now -->
 
+    <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+        android:id="@+id/fab_add_bill"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="记一笔"
+        android:backgroundTint="@color/primary"
+        android:textColor="@color/background_dark"
+        app:icon="@drawable/ic_add_24dp" 
+        app:iconTint="@color/background_dark"
+        android:layout_margin="24dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

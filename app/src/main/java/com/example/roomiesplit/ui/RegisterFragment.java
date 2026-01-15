@@ -61,8 +61,11 @@ public class RegisterFragment extends Fragment {
                                                 .navigate(R.id.action_register_to_create_join);
                                         Toast.makeText(getContext(), "注册成功", Toast.LENGTH_SHORT).show();
                                     } else {
-                                        Toast.makeText(getContext(), body.get("message").getAsString(),
-                                                Toast.LENGTH_SHORT).show();
+                                        String message = "未知错误";
+                                        if (body.has("message") && !body.get("message").isJsonNull()) {
+                                            message = body.get("message").getAsString();
+                                        }
+                                        Toast.makeText(getContext(), message, Toast.LENGTH_SHORT).show();
                                     }
                                 } else {
                                     Toast.makeText(getContext(), "注册失败: " + response.code(), Toast.LENGTH_SHORT).show();

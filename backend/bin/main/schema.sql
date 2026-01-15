@@ -68,6 +68,7 @@ CREATE TABLE `transaction_record` (
   `transaction_date` datetime NOT NULL COMMENT '交易日期',
   `split_type` varchar(20) DEFAULT 'EQUAL' COMMENT '分摊方式: EQUAL, EXACT, WEIGHTED',
   `image_urls` text COMMENT '图片URL列表(JSON)',
+  `is_archived` tinyint(1) DEFAULT 0 COMMENT '是否已归档(已完全结算)',
   `created_at` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='交易记录表';
@@ -97,9 +98,20 @@ CREATE TABLE `settlement` (
   `amount` decimal(10,2) NOT NULL COMMENT '金额',
   `currency` varchar(10) DEFAULT 'CNY' COMMENT '货币',
   `status` varchar(20) DEFAULT 'COMPLETED' COMMENT '状态',
+  `is_archived` tinyint(1) DEFAULT 0 COMMENT '是否已归档',
   `settled_at` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '结算时间',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='结算记录表';
+
+-- ... (Rest of file)
+
+-- ----------------------------
+-- Migrations (Manual Execution if needed)
+-- ----------------------------
+-- ALTER TABLE transaction_record ADD COLUMN is_archived tinyint(1) DEFAULT 0 COMMENT '是否已归档';
+-- ALTER TABLE settlement ADD COLUMN is_archived tinyint(1) DEFAULT 0 COMMENT '是否已归档';
+
+SET FOREIGN_KEY_CHECKS = 1;
 
 -- ----------------------------
 -- Table structure for notification

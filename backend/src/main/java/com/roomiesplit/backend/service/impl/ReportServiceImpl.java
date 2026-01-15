@@ -65,16 +65,21 @@ public class ReportServiceImpl implements ReportService {
         // 2. 计算债务关系边 (Edges)
         // 逻辑：Transaction 产生债务，Settlement 消除债务
 
-        // 2.1 获取该账本所有交易记录
+        // 2.1 获取该账本所有交易记录 (排除已归档)
         LambdaQueryWrapper<TransactionRecord> txQuery = new LambdaQueryWrapper<>();
         txQuery.eq(TransactionRecord::getLedgerId, ledgerId);
+        txQuery.and(wrapper -> wrapper.eq(TransactionRecord::getIsArchived, false).or()
+                .isNull(TransactionRecord::getIsArchived));
         List<TransactionRecord> transactions = transactionRecordMapper.selectList(txQuery);
         // 建立 交易ID -> 付款人ID 的映射
+        // 建立 交易ID -> 付款人ID 的映射
         Map<Long, Long> txPayerMap = transactions.stream()
+                .filter(t -> t.getPayerId() != null)
                 .collect(Collectors.toMap(TransactionRecord::getId, TransactionRecord::getPayerId));
 
         List<Long> txIds = transactions.stream().map(TransactionRecord::getId).collect(Collectors.toList());
         List<Map<String, Object>> edges = new ArrayList<>();
+        List<Map<String, Object>> simplifiedEdges = new ArrayList<>();
 
         if (!txIds.isEmpty()) {
             LambdaQueryWrapper<TransactionParticipant> partQuery = new LambdaQueryWrapper<>();
@@ -100,68 +105,77 @@ public class ReportServiceImpl implements ReportService {
 
             // 2.3 处理结算记录 (Settlements)
             // 结算通常指 A 向 B 支付金额。这将减少 A 对 B 的债务。
+            // 排除已归档的结算
             LambdaQueryWrapper<Settlement> setQuery = new LambdaQueryWrapper<>();
             setQuery.eq(Settlement::getLedgerId, ledgerId);
+            setQuery.and(
+                    wrapper -> wrapper.eq(Settlement::getIsArchived, false).or().isNull(Settlement::getIsArchived));
             List<Settlement> settlements = settlementMapper.selectList(setQuery);
 
             for (Settlement s : settlements) {
+                // Only count COMPLETED settlements
+                if (!"COMPLETED".equalsIgnoreCase(s.getStatus())) {
+                    continue;
+                }
                 // 结算 A->B，意味着 A 给 B 钱，抵消 A 对 B 的同等债务
                 String key = s.getFromUserId() + "_" + s.getToUserId();
                 BigDecimal current = debtMap.getOrDefault(key, BigDecimal.ZERO);
                 debtMap.put(key, current.subtract(s.getAmount()));
             }
 
-            // 2.4 债务对冲与归一化 (Consolidate Debts)
-            // 如果 A->B 为 100，B->A 为 40，则净债务为 A->B 60
-            // 使用 "MinId_MaxId" 作为唯一键来合并双向债务
-            Map<String, BigDecimal> netDebt = new HashMap<>();
+            // 2.4 整理债务方向 (Process Directions)
+            // 不进行双向抵消，但处理负值 (负值表示反向债务)
+            // 例如 A->B -20 意味着 B->A 20
+            // 合并相同方向的债务
+            Map<String, BigDecimal> formattedDebt = new HashMap<>();
 
             for (Map.Entry<String, BigDecimal> entry : debtMap.entrySet()) {
                 String[] parts = entry.getKey().split("_");
                 Long fromId = Long.parseLong(parts[0]);
                 Long toId = Long.parseLong(parts[1]);
-                BigDecimal amount = entry.getValue(); // From->To (正数表示欠款，负数因结算可能出现超额还款，需根据逻辑处理)
+                BigDecimal amount = entry.getValue();
 
                 if (amount.compareTo(BigDecimal.ZERO) == 0)
                     continue;
 
-                if (fromId < toId) {
+                if (amount.compareTo(BigDecimal.ZERO) > 0) {
+                    // from -> to
                     String k = fromId + "_" + toId;
-                    netDebt.put(k, netDebt.getOrDefault(k, BigDecimal.ZERO).add(amount));
+                    formattedDebt.put(k, formattedDebt.getOrDefault(k, BigDecimal.ZERO).add(amount));
                 } else {
-                    String k = toId + "_" + fromId; // 反转方向累加时需取负
-                    netDebt.put(k, netDebt.getOrDefault(k, BigDecimal.ZERO).subtract(amount));
+                    // amount < 0, implies to -> from
+                    String k = toId + "_" + fromId;
+                    formattedDebt.put(k, formattedDebt.getOrDefault(k, BigDecimal.ZERO).add(amount.abs()));
                 }
             }
 
-            // 2.5 构建最终的边数据
-            for (Map.Entry<String, BigDecimal> entry : netDebt.entrySet()) {
+            // 2.5 构建最终的边数据 (原始 - 保留双向)
+            for (Map.Entry<String, BigDecimal> entry : formattedDebt.entrySet()) {
                 String[] parts = entry.getKey().split("_");
                 Long u1 = Long.parseLong(parts[0]);
                 Long u2 = Long.parseLong(parts[1]);
                 BigDecimal val = entry.getValue();
 
-                if (val.compareTo(BigDecimal.ZERO) > 0) {
-                    // u1 -> u2 (u1 欠 u2)
-                    Map<String, Object> edge = new HashMap<>();
-                    edge.put("from", u1);
-                    edge.put("to", u2);
-                    edge.put("amount", val);
-                    edges.add(edge);
-                } else if (val.compareTo(BigDecimal.ZERO) < 0) {
-                    // u2 -> u1 (u2 欠 u1，因为值是负的)
-                    Map<String, Object> edge = new HashMap<>();
-                    edge.put("from", u2);
-                    edge.put("to", u1);
-                    edge.put("amount", val.abs());
-                    edges.add(edge);
-                }
+                if (val.compareTo(BigDecimal.ZERO) == 0)
+                    continue;
+
+                Map<String, Object> edge = new HashMap<>();
+                edge.put("from", u1);
+                edge.put("to", u2);
+                edge.put("amount", val);
+                edges.add(edge);
             }
+
+            // 3. 计算简化后的债务图 (Simplified/Optimized)
+            // 简化算法内部会计算净余额，所以传入包含双向债务的 Map 也是可以的，算法会自动处理
+            simplifiedEdges = com.roomiesplit.backend.utils.DebtSimplificationStrategy.simplify(formattedDebt);
         }
 
         Map<String, Object> result = new HashMap<>();
         result.put("nodes", nodes);
-        result.put("edges", edges);
+        result.put("originalEdges", edges);
+        result.put("simplifiedEdges", simplifiedEdges);
+        result.put("edges", edges); // Backward compatibility default to original
 
         return Result.success(result);
     }

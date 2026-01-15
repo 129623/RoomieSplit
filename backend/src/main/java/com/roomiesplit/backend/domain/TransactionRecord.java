@@ -45,6 +45,9 @@ public class TransactionRecord {
     @TableField("image_urls")
     private String imageUrls;
 
+    @TableField("is_archived")
+    private Boolean isArchived;
+
     @TableField("created_at")
     private LocalDateTime createdAt;
 

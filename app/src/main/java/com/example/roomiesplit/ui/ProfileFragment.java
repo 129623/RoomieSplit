@@ -24,12 +24,20 @@ import com.bumptech.glide.Glide;
 import com.example.roomiesplit.R;
 import com.example.roomiesplit.network.ApiService;
 import com.example.roomiesplit.network.RetrofitClient;
+import com.example.roomiesplit.config.AppConfig;
 import com.google.android.material.button.MaterialButton;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+
+import java.io.File;
+import java.io.InputStream;
+import java.io.FileOutputStream;
 
 import java.text.DecimalFormat;
 
@@ -87,7 +95,7 @@ public class ProfileFragment extends Fragment {
                             textAvatarChar.setVisibility(View.GONE);
 
                             // Update server
-                            updateAvatarOnServer(uriString);
+                            uploadImage(imageUri);
                         }
                     }
                 });
@@ -453,6 +461,59 @@ public class ProfileFragment extends Fragment {
                 Toast.makeText(requireContext(), "网络错误: " + t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
+    }
+
+    private void uploadImage(Uri imageUri) {
+        try {
+            // 1. Create temporary file
+            File file = new File(requireContext().getCacheDir(), "upload_avatar.jpg");
+            InputStream inputStream = requireContext().getContentResolver().openInputStream(imageUri);
+            FileOutputStream outputStream = new FileOutputStream(file);
+            byte[] buffer = new byte[1024];
+            int length;
+            while ((length = inputStream.read(buffer)) > 0) {
+                outputStream.write(buffer, 0, length);
+            }
+            outputStream.close();
+            inputStream.close();
+
+            // 2. Create MultipartBody.Part
+            RequestBody requestFile = RequestBody.create(MediaType.parse("image/*"), file);
+            MultipartBody.Part body = MultipartBody.Part.createFormData("file", file.getName(), requestFile);
+
+            // 3. Upload
+            Toast.makeText(requireContext(), "正在上传头像...", Toast.LENGTH_SHORT).show();
+            apiService.uploadImage(body).enqueue(new Callback<JsonObject>() {
+                @Override
+                public void onResponse(retrofit2.Call<JsonObject> call, Response<JsonObject> response) {
+                    if (response.isSuccessful() && response.body() != null) {
+                        JsonObject result = response.body();
+                        if (result.get("code").getAsInt() == 200) {
+                            String serverPath = result.get("data").getAsString();
+                            // Construct full URL (strip trailing slash from BASE_URL if present, serverPath
+                            // already starts with /)
+                            String fullUrl = AppConfig.BASE_URL.replaceAll("/$", "") + serverPath;
+
+                            Log.d(TAG, "Upload success, url: " + fullUrl);
+                            updateAvatarOnServer(fullUrl);
+                        } else {
+                            Toast.makeText(requireContext(), "上传失败: " + result.get("msg"), Toast.LENGTH_SHORT).show();
+                        }
+                    } else {
+                        Toast.makeText(requireContext(), "上传失败: Server Error", Toast.LENGTH_SHORT).show();
+                    }
+                }
+
+                @Override
+                public void onFailure(retrofit2.Call<JsonObject> call, Throwable t) {
+                    Toast.makeText(requireContext(), "上传网络错误: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+                }
+            });
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            Toast.makeText(requireContext(), "文件处理错误: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+        }
     }
 
     private void performLogout() {

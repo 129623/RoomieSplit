@@ -9,6 +9,8 @@ public interface NotificationService extends IService<Notification> {
 
     Result<?> markAsRead(Long notificationId, Long userId);
 
+    Result<?> deleteNotification(Long id, Long userId);
+
     void sendNotification(Long userId, String type, String title, String message, String actionUrl);
 
     void broadcastNotification(Long ledgerId, String type, String title, String message, String actionUrl);

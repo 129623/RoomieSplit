@@ -12,33 +12,50 @@ if (Test-Path $LocalProps) {
 Write-Host "Using Android SDK: $SdkDir"
 $AdbExe = Join-Path $SdkDir "platform-tools\adb.exe"
 
-# Add platform-tools to PATH so gradle and other commands can find adb
+# Add platform-tools to PATH locally for this session
 $Env:Path += ";$SdkDir\platform-tools"
 
 if (-not (Test-Path $AdbExe)) {
     Write-Warning "ADB not found at $AdbExe. Installation might fail."
+    exit 1
 }
 
 Write-Host "Checking for connected devices..."
-& $AdbExe devices
+$DevicesOutput = & $AdbExe devices
+$Devices = $DevicesOutput | Where-Object { $_ -match "\tdevice$" } | ForEach-Object { $_.Split("`t")[0] }
 
-# Wait for device to be ready
-Write-Host "Waiting for device to connect... (Please ensure Emulator is running)"
-& $AdbExe wait-for-device
-Write-Host "Device connected!"
+if (-not $Devices) {
+    Write-Error "No devices connected or emulators running."
+    exit 1
+}
 
-Write-Host "Building and Installing Debug APK..."
+Write-Host "Found devices: $($Devices -join ', ')"
 
+Write-Host "Building APK..."
 if (Test-Path ".\gradlew.bat") {
-    .\gradlew.bat installDebug
-    if ($LASTEXITCODE -eq 0) {
-        Write-Host "Launch App..."
-        & $AdbExe shell am start -n com.example.roomiesplit/.MainActivity
-    }
-    else {
+    .\gradlew.bat assembleDebug
+    if ($LASTEXITCODE -ne 0) {
         Write-Error "Build Failed!"
+        exit 1
     }
 }
 else {
-    Write-Error "gradlew.bat not found. Please run setup_wrapper.ps1 first."
+    Write-Error "gradlew.bat not found."
+    exit 1
 }
+
+$ApkPath = ".\app\build\outputs\apk\debug\app-debug.apk"
+if (-not (Test-Path $ApkPath)) {
+    Write-Error "APK not found at $ApkPath"
+    exit 1
+}
+
+foreach ($Device in $Devices) {
+    Write-Host "Installing on $Device..."
+    & $AdbExe -s $Device install -r $ApkPath
+    
+    Write-Host "Launching on $Device..."
+    & $AdbExe -s $Device shell am start -n com.example.roomiesplit/.MainActivity
+}
+
+Write-Host "Deployment complete for all devices."

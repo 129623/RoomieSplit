@@ -18,7 +18,35 @@ public class LoginFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
             @Nullable Bundle savedInstanceState) {
+
+        // Auto Login Check
+        com.example.roomiesplit.utils.SessionManager session = new com.example.roomiesplit.utils.SessionManager(
+                getContext());
+        if (session.isLoggedIn()) {
+            // Navigate directly to Dashboard
+            // We need a slight delay or post to ensure NavController is ready if strictly
+            // needed,
+            // but usually safe here if view is created.
+            // However, findNavController(view) works AFTER view is inflated.
+            // But we are returning view. We can't use Navigation.findNavController(view)
+            // immediately here
+            // before returning, unless we use a layout listener or similar.
+            // Actually, the recommended way is to check in onStart or onViewCreated.
+        }
+
         View view = inflater.inflate(R.layout.fragment_login, container, false);
+
+        if (session.isLoggedIn()) {
+            view.post(() -> {
+                if (view != null) {
+                    try {
+                        Navigation.findNavController(view).navigate(R.id.action_login_to_dashboard);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+            });
+        }
 
         TextInputEditText emailInput = view.findViewById(R.id.input_email);
         TextInputEditText passwordInput = view.findViewById(R.id.input_password);
@@ -57,8 +85,11 @@ public class LoginFragment extends Fragment {
                                         Navigation.findNavController(view).navigate(R.id.action_login_to_dashboard);
                                         Toast.makeText(getContext(), "登录成功", Toast.LENGTH_SHORT).show();
                                     } else {
-                                        Toast.makeText(getContext(), body.get("message").getAsString(),
-                                                Toast.LENGTH_SHORT).show();
+                                        String message = "未知错误";
+                                        if (body.has("message") && !body.get("message").isJsonNull()) {
+                                            message = body.get("message").getAsString();
+                                        }
+                                        Toast.makeText(getContext(), message, Toast.LENGTH_SHORT).show();
                                     }
                                 } else {
                                     Toast.makeText(getContext(), "登录失败: " + response.code(), Toast.LENGTH_SHORT).show();

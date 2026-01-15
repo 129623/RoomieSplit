@@ -36,6 +36,9 @@ public class Settlement {
      */
     private String status;
 
+    @TableField("is_archived")
+    private Boolean isArchived;
+
     @TableField("settled_at")
     private LocalDateTime settledAt;
 }

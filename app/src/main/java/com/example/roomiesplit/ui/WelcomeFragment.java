@@ -12,20 +12,47 @@ import com.example.roomiesplit.R;
 
 public class WelcomeFragment extends Fragment {
 
-    @Nullable
-    @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
-            @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_welcome, container, false);
+        @Nullable
+        @Override
+        public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
+                        @Nullable Bundle savedInstanceState) {
 
-        view.findViewById(R.id.btn_login)
-                .setOnClickListener(v -> Navigation.findNavController(view).navigate(R.id.action_welcome_to_login));
+                // Auto Login Check
+                com.example.roomiesplit.utils.SessionManager session = new com.example.roomiesplit.utils.SessionManager(
+                                getContext());
+                if (session.isLoggedIn()) {
+                        // Navigate directly to Dashboard
+                        // Use post slightly after view creation or just do it here if possible.
+                        // Since we are inside onCreateView, returning the view first and then
+                        // navigating is safer to avoid illegal state.
+                }
 
-        view.findViewById(R.id.btn_register)
-                .setOnClickListener(v -> Navigation.findNavController(view).navigate(R.id.action_welcome_to_register));
+                View view = inflater.inflate(R.layout.fragment_welcome, container, false);
 
-        view.findViewById(R.id.btn_guest)
-                .setOnClickListener(v -> Navigation.findNavController(view).navigate(R.id.action_welcome_to_dashboard));
-        return view;
-    }
+                if (session.isLoggedIn()) {
+                        view.post(() -> {
+                                if (view != null) {
+                                        try {
+                                                Navigation.findNavController(view)
+                                                                .navigate(R.id.action_welcome_to_dashboard);
+                                        } catch (Exception e) {
+                                                e.printStackTrace();
+                                        }
+                                }
+                        });
+                }
+
+                view.findViewById(R.id.btn_login)
+                                .setOnClickListener(v -> Navigation.findNavController(view)
+                                                .navigate(R.id.action_welcome_to_login));
+
+                view.findViewById(R.id.btn_register)
+                                .setOnClickListener(v -> Navigation.findNavController(view)
+                                                .navigate(R.id.action_welcome_to_register));
+
+                view.findViewById(R.id.btn_guest)
+                                .setOnClickListener(v -> Navigation.findNavController(view)
+                                                .navigate(R.id.action_welcome_to_dashboard));
+                return view;
+        }
 }

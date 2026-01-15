@@ -1,0 +1,51 @@
+# Android / Global Gradle
+.gradle/
+build/
+local.properties
+*.iml
+.idea/
+.navigation/
+captures/
+*.apk
+*.ap_
+*.dex
+
+# App Module
+app/build/
+app/captures/
+
+# Backend Module
+backend/build/
+backend/bin/
+backend/uploads/
+backend/logs/
+backend/out/
+
+# Java Class Files
+*.class
+*.jar
+*.war
+*.ear
+hs_err_pid*
+
+# VS Code / IDE
+.vscode/
+*.code-workspace
+
+# OS specific
+.DS_Store
+Thumbs.db
+Desktop.ini
+
+# Logs & Temporary Files
+*.log
+crash_log.txt
+crash_stack.txt
+compile.log
+compile_error.log
+backend_error.log
+temp/
+tmp/
+
+# Generated Reports
+*.xlsx

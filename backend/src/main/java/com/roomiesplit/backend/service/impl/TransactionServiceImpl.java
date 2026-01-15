@@ -44,6 +44,11 @@ public class TransactionServiceImpl extends ServiceImpl<TransactionRecordMapper,
     @Override
     @Transactional
     public Result<?> createTransaction(CreateTransactionRequest request, Long userId) {
+        System.out.println("====== [DEBUG] Start createTransaction ======");
+        System.out.println("Request: " + request);
+        System.out.println("User ID: " + userId);
+        System.out.println("Ledger ID: " + request.getLedgerId());
+
         // 1. 保存交易主记录
         TransactionRecord record = new TransactionRecord();
         record.setLedgerId(request.getLedgerId());
@@ -57,7 +62,16 @@ public class TransactionServiceImpl extends ServiceImpl<TransactionRecordMapper,
         record.setSplitType(request.getSplitType() != null ? request.getSplitType() : "EQUAL");
         record.setCreatedAt(LocalDateTime.now());
 
-        this.save(record);
+        System.out.println("Preparing to save Record: " + record);
+
+        boolean saved = this.save(record);
+        System.out.println("Record Save Result: " + saved);
+        System.out.println("Generated Record ID: " + record.getId());
+
+        if (!saved) {
+            System.err.println("!!! Critical Error: Failed to save transaction record !!!");
+            return Result.error(500, "保存交易记录失败");
+        }
 
         // 2. 处理分摊逻辑
         List<CreateTransactionRequest.ReqParticipant> reqParticipants = request.getParticipants();
@@ -82,6 +96,7 @@ public class TransactionServiceImpl extends ServiceImpl<TransactionRecordMapper,
 
         BigDecimal totalAmount = request.getAmount();
         int count = reqParticipants.size();
+        System.out.println("Participant count: " + count);
 
         // 预先计算人均分摊金额 (仅针对 EQUAL 模式)
         BigDecimal splitAmountPerPerson = BigDecimal.ZERO;
@@ -124,9 +139,11 @@ public class TransactionServiceImpl extends ServiceImpl<TransactionRecordMapper,
                 tp.setPaidAmount(BigDecimal.ZERO);
             }
 
-            participantMapper.insert(tp);
+            int pResult = participantMapper.insert(tp);
+            System.out.println("Participant inserted (User: " + rp.getUserId() + "), Result: " + pResult);
         }
 
+        System.out.println("====== [DEBUG] End createTransaction (Success) ======");
         return Result.success("记账成功", record);
     }
 

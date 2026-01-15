@@ -57,6 +57,15 @@ public class PollServiceImpl extends ServiceImpl<PollMapper, Poll> implements Po
         poll.setCreatedAt(LocalDateTime.now());
 
         this.save(poll);
+
+        // 向账本所有成员广播新投票通知
+        notificationService.broadcastNotification(
+                ledgerId,
+                "POLL_NEW",
+                poll.getTitle(),
+                "有新的投票需要您参与，请尽快投票！",
+                "/decision");
+
         return Result.success("投票创建成功", poll);
     }
 
