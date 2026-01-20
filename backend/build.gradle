@@ -22,6 +22,8 @@ dependencies {
     runtimeOnly 'com.mysql:mysql-connector-j'
     // runtimeOnly 'com.h2database:h2'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    implementation 'com.squareup.okhttp3:okhttp:4.12.0'
+    implementation 'org.json:json:20231013'
 }
 
 tasks.named('test') {

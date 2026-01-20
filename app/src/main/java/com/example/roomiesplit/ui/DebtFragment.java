@@ -109,6 +109,9 @@ public class DebtFragment extends Fragment {
                                                             : "无名氏";
                                                     if (!id.isEmpty()) {
                                                         loadedNodes.add(new DebtGraphView.Node(id, name));
+                                                        if (n.has("avatar") && !n.get("avatar").isJsonNull()) {
+                                                            avatarUrlMap.put(id, n.get("avatar").getAsString());
+                                                        }
                                                     }
                                                 }
                                             }
@@ -202,11 +205,37 @@ public class DebtFragment extends Fragment {
                 });
     }
 
+    private java.util.Map<String, String> avatarUrlMap = new java.util.HashMap<>();
+
     private void updateView(View rootView, boolean showSimplified, Long userId) {
         List<DebtGraphView.Edge> edgesToShow = showSimplified ? simplifiedEdges : originalEdges;
 
         graphView.setData(loadedNodes, edgesToShow);
         descText.setText(showSimplified ? "简化试图" : "原始视图");
+
+        // Load Avatars
+        for (DebtGraphView.Node node : loadedNodes) {
+            String url = avatarUrlMap.get(node.id);
+            if (url != null && !url.isEmpty()) {
+                com.bumptech.glide.Glide.with(this)
+                        .asBitmap()
+                        .load(url)
+                        .circleCrop()
+                        .into(new com.bumptech.glide.request.target.CustomTarget<android.graphics.Bitmap>() {
+                            @Override
+                            public void onResourceReady(@NonNull android.graphics.Bitmap resource,
+                                    @Nullable com.bumptech.glide.request.transition.Transition<? super android.graphics.Bitmap> transition) {
+                                if (graphView != null) {
+                                    graphView.updateNodeAvatar(node.id, resource);
+                                }
+                            }
+
+                            @Override
+                            public void onLoadCleared(@Nullable android.graphics.drawable.Drawable placeholder) {
+                            }
+                        });
+            }
+        }
 
         // Always show simplified list
         List<DebtGraphView.Edge> listEdges = simplifiedEdges;
@@ -239,7 +268,7 @@ public class DebtFragment extends Fragment {
                 String sign = netAsset > 0 ? "+" : "";
                 netAssetText.setText(String.format("%s ¥%.2f", sign, netAsset));
                 netAssetText.setTextColor(
-                        netAsset > 0 ? rootView.getResources().getColor(R.color.primary_dark, null)
+                        netAsset > 0 ? androidx.core.content.ContextCompat.getColor(getContext(), R.color.primary_dark)
                                 : android.graphics.Color.RED);
             }
         }

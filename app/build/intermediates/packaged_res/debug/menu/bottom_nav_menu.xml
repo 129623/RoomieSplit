@@ -7,7 +7,7 @@
     <item
         android:id="@+id/navigation_calendar"
         android:icon="@drawable/ic_calendar_today_24dp"
-        android:title="日历" />
+        android:title="账单" />
     <item
         android:id="@+id/navigation_debt"
         android:icon="@drawable/ic_account_balance_wallet_24dp"

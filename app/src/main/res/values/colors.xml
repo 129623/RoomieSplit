@@ -21,4 +21,29 @@
     <color name="expense">#FF8A65</color>
     <color name="unallocated">#FFF3E0</color>
     <color name="unallocated_dark">#3B2D25</color>
+
+
+    <!-- Semantic Colors -->
+    <color name="app_background">@color/background_light</color>
+    <color name="app_surface">@color/surface_light</color>
+    <color name="app_text_primary">@color/black</color>
+    <color name="app_text_secondary">@color/text_secondary</color>
+    <color name="header_background">#F0F0F0</color>
+    
+    <!-- Dashboard Cards -->
+    <color name="card_food_bg">#FFF3E0</color>
+    <color name="card_food_text">#E65100</color>
+    <color name="card_food_subtext">#EF6C00</color>
+    <color name="card_food_icon_tint">#FF9800</color>
+    
+    <color name="card_roulette_bg">#E0F7FA</color>
+    <color name="card_roulette_icon_tint">#0097A7</color>
+    <color name="card_roulette_subtext">@android:color/darker_gray</color>
+
+    <!-- Form/Input Fields -->
+    <color name="input_field_bg">#F8FAFC</color>
+    <color name="smart_input_bg">#E3F2FD</color>
+    <color name="chip_bg_unselected">#F1F5F9</color>
+    <color name="chip_text_unselected">@android:color/darker_gray</color>
+    <color name="tab_bg">#F1F5F9</color>
 </resources>

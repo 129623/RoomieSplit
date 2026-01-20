@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/background_light"
+    android:background="@color/app_background"
     android:padding="20dp"
     tools:context=".ui.ProfileFragment">
 
@@ -43,7 +43,7 @@
         android:text="未登录"
         android:textSize="24sp"
         android:textStyle="bold"
-        android:textColor="@color/black"
+        android:textColor="@color/app_text_primary"
         android:layout_marginStart="16dp"
         app:layout_constraintStart_toEndOf="@id/card_avatar"
         app:layout_constraintTop_toTopOf="@id/card_avatar"

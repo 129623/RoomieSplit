@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- White Background -->
+    <item android:drawable="@android:color/white"/>
+    
+    <!-- Icon with specific padding (Inset) 
+         10dp inset on a 108dp canvas results in ~18% padding. 
+         This makes the icon larger than standard (which forces ~33% padding) 
+         but smaller than full bleed. -->
+    <item>
+        <inset 
+            android:drawable="@mipmap/app_icon_source" 
+            android:inset="20dp" />
+    </item>
+</layer-list>

@@ -111,7 +111,7 @@ public interface ApiService {
 
         @Multipart
         @POST("api/v1/upload")
-        Call<JsonObject> uploadImage(@Part MultipartBody.Part file);
+        Call<JsonObject> uploadImage(@Part MultipartBody.Part file, @Query("skipOCR") boolean skipOCR);
 
         @POST("api/v1/settlements/smart")
         Call<JsonObject> smartSettle(@Body com.google.gson.JsonObject body);

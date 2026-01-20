@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/background_light"
+    android:background="@color/app_background"
     tools:context=".ui.DashboardFragment">
 
     <!-- Scrollable Content -->
@@ -27,7 +27,7 @@
                 android:text="未选择账本"
                 android:textSize="20sp"
                 android:textStyle="bold"
-                android:textColor="@color/black"
+                android:textColor="@color/app_text_primary"
                 android:layout_marginStart="20dp"
                 android:layout_marginTop="16dp"
                 app:layout_constraintStart_toStartOf="parent"
@@ -128,7 +128,7 @@
                 android:layout_height="wrap_content"
                 android:text="室友状态"
                 android:textSize="12sp"
-                android:textColor="@color/black"
+                android:textColor="@color/app_text_primary"
                 android:textStyle="bold"
                 android:layout_marginTop="16dp"
                 android:layout_marginStart="20dp"
@@ -165,6 +165,7 @@
                 android:layout_marginTop="24dp"
                 app:cardCornerRadius="16dp"
                 app:cardElevation="4dp"
+                app:cardBackgroundColor="@color/card_food_bg"
                 app:layout_constraintTop_toBottomOf="@id/container_roommates"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent">
@@ -174,14 +175,13 @@
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
                     android:padding="16dp"
-                    android:gravity="center_vertical"
-                    android:background="#FFF3E0"> <!-- Light Orange for food -->
+                    android:gravity="center_vertical">
 
                     <ImageView
                         android:layout_width="40dp"
                         android:layout_height="40dp"
                         android:src="@drawable/toupiao"
-                        app:tint="#FF9800"/>
+                        app:tint="@color/card_food_icon_tint"/>
 
                     <LinearLayout
                         android:layout_width="0dp"
@@ -196,14 +196,14 @@
                             android:text="今天吃什么？"
                             android:textSize="18sp"
                             android:textStyle="bold"
-                            android:textColor="#E65100"/>
+                            android:textColor="@color/card_food_text"/>
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="发起投票或让系统决定"
                             android:textSize="12sp"
-                            android:textColor="#EF6C00"/>
+                            android:textColor="@color/card_food_subtext"/>
                     </LinearLayout>
 
                     <ImageView
@@ -211,7 +211,7 @@
                         android:layout_height="24dp"
                         android:src="@drawable/ic_add_24dp"
                         android:rotation="-90"
-                        app:tint="#FF9800"/>
+                        app:tint="@color/card_food_icon_tint"/>
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
 
@@ -225,6 +225,7 @@
                 android:layout_marginBottom="16dp"
                 app:cardCornerRadius="16dp"
                 app:cardElevation="4dp"
+                app:cardBackgroundColor="@color/card_roulette_bg"
                 app:layout_constraintTop_toBottomOf="@id/card_decision_entry"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -235,14 +236,13 @@
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
                     android:padding="16dp"
-                    android:gravity="center_vertical"
-                    android:background="#E0F7FA"> <!-- Light Cyan bg -->
+                    android:gravity="center_vertical">
                     
                     <ImageView
                         android:layout_width="40dp"
                         android:layout_height="40dp"
                         android:src="@android:drawable/ic_menu_rotate"
-                        app:tint="#0097A7"
+                        app:tint="@color/card_roulette_icon_tint"
                         android:background="@drawable/ic_launcher_background"
                         android:backgroundTint="#FFFFFF"
                         android:padding="8dp"/>
@@ -260,14 +260,14 @@
                             android:text="因果报应轮盘"
                             android:textSize="18sp"
                             android:textStyle="bold"
-                            android:textColor="@color/black"/>
+                            android:textColor="@color/app_text_primary"/>
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="谁倒垃圾全靠命？攒人品减概率！"
                             android:textSize="12sp"
-                            android:textColor="@android:color/darker_gray"
+                            android:textColor="@color/card_roulette_subtext"
                             android:layout_marginTop="4dp"/>
                     </LinearLayout>
 
@@ -276,7 +276,7 @@
                         android:layout_height="24dp"
                         android:src="@drawable/ic_add_24dp"
                         android:rotation="-90"
-                        app:tint="@android:color/darker_gray"/>
+                        app:tint="@color/card_roulette_subtext"/>
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
 

@@ -30,7 +30,7 @@
             android:layout_height="wrap_content"
             android:text="超市购物"
             android:textStyle="bold"
-            android:textColor="@color/black"
+            android:textColor="@color/app_text_primary"
             android:textSize="16sp"/>
             
         <TextView
@@ -48,6 +48,15 @@
             android:textSize="12sp"
             android:textColor="@android:color/darker_gray"
             android:layout_marginTop="2dp"/>
+
+        <TextView
+            android:id="@+id/text_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="2023-10-24 14:30"
+            android:textSize="12sp"
+            android:textColor="@android:color/darker_gray"
+            android:layout_marginTop="2dp"/>
     </LinearLayout>
 
     <TextView
@@ -56,6 +65,6 @@
         android:layout_height="wrap_content"
         android:text="-¥185.50"
         android:textStyle="bold"
-        android:textColor="@color/black"/>
+        android:textColor="@color/app_text_primary"/>
 
 </LinearLayout>

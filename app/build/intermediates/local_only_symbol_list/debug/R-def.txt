@@ -1,18 +1,35 @@
 R_DEF: Internal format may change without notice
 local
+color app_background
+color app_surface
+color app_text_primary
+color app_text_secondary
 color background_dark
 color background_light
 color black
 color border_green
+color card_food_bg
+color card_food_icon_tint
+color card_food_subtext
+color card_food_text
+color card_roulette_bg
+color card_roulette_icon_tint
+color card_roulette_subtext
+color chip_bg_unselected
+color chip_text_unselected
 color expense
+color header_background
+color input_field_bg
 color primary
 color primary_dark
 color purple_200
 color purple_500
 color purple_700
+color smart_input_bg
 color surface_dark
 color surface_dark_highlight
 color surface_light
+color tab_bg
 color teal_200
 color teal_700
 color text_secondary
@@ -25,6 +42,7 @@ drawable bg_icon_circle
 drawable ic_account_balance_wallet_24dp
 drawable ic_add_24dp
 drawable ic_calendar_today_24dp
+drawable ic_camera_alt_24dp
 drawable ic_category_food
 drawable ic_category_fun
 drawable ic_category_other
@@ -33,6 +51,8 @@ drawable ic_category_transport
 drawable ic_chat_bubble_24dp
 drawable ic_close_24dp
 drawable ic_dashboard_24dp
+drawable ic_icon_composite
+drawable ic_icon_composite_round
 drawable ic_launcher_background
 drawable ic_person_24dp
 drawable message
@@ -75,6 +95,7 @@ id btn_export_excel
 id btn_guest
 id btn_initiate_vote
 id btn_invite_roommate
+id btn_list_view
 id btn_login
 id btn_logout
 id btn_month_view
@@ -84,6 +105,7 @@ id btn_random_pick
 id btn_register
 id btn_reject
 id btn_save
+id btn_scan_receipt
 id btn_select_range
 id btn_send_invite
 id btn_skip_setup
@@ -248,9 +270,12 @@ layout item_poll
 layout item_roommate_status
 layout item_transaction
 menu bottom_nav_menu
+mipmap app_icon_source
+mipmap app_icon_source_round
 mipmap ic_launcher
 mipmap ic_launcher_round
 navigation mobile_navigation
 string app_name
 style Theme.RoomieSplit
 style Theme.RoomieSplit.Calendar
+xml file_paths

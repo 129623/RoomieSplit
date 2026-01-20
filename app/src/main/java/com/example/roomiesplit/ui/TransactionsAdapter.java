@@ -94,6 +94,22 @@ public class TransactionsAdapter extends RecyclerView.Adapter<TransactionsAdapte
         String payerName = (userMap != null && userMap.containsKey(payerId)) ? userMap.get(payerId) : "用户 " + payerId;
         if (holder.textPayer != null)
             holder.textPayer.setText("付款人: " + payerName);
+
+        // Time
+        String dateStr = tx.has("transactionDate") && !tx.get("transactionDate").isJsonNull()
+                ? tx.get("transactionDate").getAsString()
+                : (tx.has("date") && !tx.get("date").isJsonNull() ? tx.get("date").getAsString() : "");
+
+        // Simple formatting
+        if (dateStr != null && !dateStr.isEmpty()) {
+            dateStr = dateStr.replace("T", " ");
+            // If length is enough, take yyyy-MM-dd HH:mm
+            if (dateStr.length() > 16)
+                dateStr = dateStr.substring(0, 16);
+        }
+
+        if (holder.textTime != null)
+            holder.textTime.setText(dateStr);
     }
 
     @Override
@@ -107,6 +123,7 @@ public class TransactionsAdapter extends RecyclerView.Adapter<TransactionsAdapte
         TextView textCategory;
         TextView textAmount;
         TextView textPayer;
+        TextView textTime;
 
         ViewHolder(View itemView) {
             super(itemView);
@@ -115,6 +132,7 @@ public class TransactionsAdapter extends RecyclerView.Adapter<TransactionsAdapte
             textCategory = itemView.findViewById(R.id.text_category);
             textAmount = itemView.findViewById(R.id.text_amount);
             textPayer = itemView.findViewById(R.id.text_payer);
+            textTime = itemView.findViewById(R.id.text_time);
         }
     }
 }

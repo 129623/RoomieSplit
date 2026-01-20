@@ -22,6 +22,9 @@ import java.util.UUID;
 @RequestMapping("/api/v1/upload")
 public class FileUploadController {
 
+    @org.springframework.beans.factory.annotation.Autowired
+    private com.roomiesplit.backend.service.ocr.BaiduOCRService baiduOCRService;
+
     private final Path rootLocation = Paths.get("uploads");
 
     public FileUploadController() {
@@ -33,7 +36,8 @@ public class FileUploadController {
     }
 
     @PostMapping
-    public Result<?> handleFileUpload(@RequestParam("file") MultipartFile file) {
+    public Result<?> handleFileUpload(@RequestParam("file") MultipartFile file,
+            @RequestParam(value = "skipOCR", required = false, defaultValue = "false") boolean skipOCR) {
         try {
             if (file.isEmpty()) {
                 return Result.error(400, "Failed to store empty file.");
@@ -50,39 +54,44 @@ public class FileUploadController {
             // Save file
             Files.copy(file.getInputStream(), this.rootLocation.resolve(filename));
 
-            // Return URL (Assuming server is accessible at same host)
-            // Ideally, host should be dynamic or configured. For now, returning relative
-            // path or full URL if possible.
-            // Client will prepend base URL. But wait, client assumes full URL for avatar.
-            // Let's return the relative path "/uploads/filename" and let the client handle
-            // it?
-            // Or better, return the full resource path if we knew the host.
-            // Since we are adding ResourceHandler for /uploads/**, the URL is just
-            // /uploads/filename
-
-            // NOTE: Returning a path starting with "http" is better for the client logic I
-            // saw earlier.
-            // But I don't easily know the server IP seen by the emulator (10.0.2.2
-            // usually).
-            // Let's return a path "/uploads/..." and ensure client handles it, or try to
-            // construct full URL.
-            // The client code checks `avatarUrl.startsWith("http")`.
-            // So I should probably modify client to handle "/uploads" or construct a full
-            // URL here.
-
-            // Strategy: Return "/uploads/" + filename. Client needs to prepend BASE_URL if
-            // it doesn't start with http.
-            // But wait, the existing client code:
-            // if (avatarUrl.startsWith("http")) ...
-            // else if (avatarUrl.startsWith("avatar_")) ...
-            // So if I return "/uploads/...", the client will ignore it!
-
-            // I should modify the client to handle non-http paths by prepending base url,
-            // OR make this controller return a full URL.
-            // Constructing full URL requires HttpServletRequest.
-
             String fileUrl = "/uploads/" + filename;
-            return Result.success(fileUrl);
+            java.util.Map<String, Object> data = new java.util.HashMap<>();
+            data.put("url", fileUrl);
+
+            // Call Baidu OCR only if not skipped
+            java.util.Map<String, Object> ocrData = null;
+            if (!skipOCR) {
+                try {
+                    Path filePath = this.rootLocation.resolve(filename);
+                    if (baiduOCRService != null) {
+                        ocrData = baiduOCRService.recognizeReceipt(filePath);
+                    } else {
+                        ocrData = new java.util.HashMap<>();
+                        ocrData.put("description", "错误: OCR服务未注入(Autowired失败)");
+                    }
+                } catch (Throwable e) {
+                    e.printStackTrace();
+                    ocrData = new java.util.HashMap<>();
+                    ocrData.put("description", "后端异常: " + e.getClass().getSimpleName() + " - " + e.getMessage());
+                }
+
+                if (ocrData == null) {
+                    ocrData = new java.util.HashMap<>();
+                    ocrData.put("description", "未知错误: OCR返回空数据");
+                } else if (ocrData.containsKey("error")) {
+                    String err = String.valueOf(ocrData.get("error"));
+                    ocrData.put("description", "API错误: " + err);
+                }
+            } else {
+                ocrData = new java.util.HashMap<>();
+                ocrData.put("description", "OCR Skipped");
+            }
+
+            // File is now persisted for access via URL
+            // Files.deleteIfExists(filePath); replaced by persistence logic
+
+            data.put("ocr", ocrData);
+            return Result.success(data);
 
         } catch (Exception e) {
             return Result.error(500, "Failed to upload file: " + e.getMessage());

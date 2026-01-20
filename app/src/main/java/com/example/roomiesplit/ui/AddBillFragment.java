@@ -12,6 +12,17 @@ import com.example.roomiesplit.R;
 import android.widget.TextView;
 import android.widget.EditText;
 import android.widget.Toast;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.InputStream;
+import android.net.Uri;
+import android.database.Cursor;
+import android.provider.OpenableColumns;
 
 public class AddBillFragment extends Fragment {
 
@@ -21,6 +32,34 @@ public class AddBillFragment extends Fragment {
     private java.util.List<com.example.roomiesplit.ui.DashboardFragment.LedgerMember> members = new java.util.ArrayList<>();
     private android.widget.TextView dateText;
     private android.widget.TextView payerText;
+
+    private Uri currentPhotoUri;
+
+    private final ActivityResultLauncher<String> pickImageLauncher = registerForActivityResult(
+            new ActivityResultContracts.GetContent(),
+            uri -> {
+                if (uri != null) {
+                    uploadReceipt(uri);
+                }
+            });
+
+    private final ActivityResultLauncher<Uri> takePictureLauncher = registerForActivityResult(
+            new ActivityResultContracts.TakePicture(),
+            result -> {
+                if (result && currentPhotoUri != null) {
+                    uploadReceipt(currentPhotoUri);
+                }
+            });
+
+    private final ActivityResultLauncher<String> requestCameraPermissionLauncher = registerForActivityResult(
+            new ActivityResultContracts.RequestPermission(),
+            isGranted -> {
+                if (isGranted) {
+                    openCamera();
+                } else {
+                    Toast.makeText(getContext(), "需要相机权限才能拍照", Toast.LENGTH_SHORT).show();
+                }
+            });
 
     private String selectedCategory = "餐饮"; // Default
     private String selectedSplitType = "EQUAL"; // EQUAL, PERCENT, EXACT
@@ -63,6 +102,10 @@ public class AddBillFragment extends Fragment {
         selectedPayerName = session.getUsername(); // This might be null/empty, but safe to set
         updatePayerUI();
         view.findViewById(R.id.container_payer).setOnClickListener(v -> showPayerSelectionDialog());
+
+        // Scan Receipt
+        // Scan Receipt (Camera or Gallery)
+        view.findViewById(R.id.btn_scan_receipt).setOnClickListener(v -> showImageSourceDialog());
 
         // Smart Entry Listener
         view.findViewById(R.id.btn_smart_parse).setOnClickListener(v -> {
@@ -284,10 +327,10 @@ public class AddBillFragment extends Fragment {
     private void updateCategoryUI() {
         if (btnCatFood == null)
             return;
-        int activeColor = 0xFF4CAF50; // Green
-        int inactiveColor = 0xFFF1F5F9; // Gray
-        int activeText = 0xFFFFFFFF;
-        int inactiveText = 0xFF757575;
+        int activeColor = androidx.core.content.ContextCompat.getColor(getContext(), R.color.primary);
+        int inactiveColor = androidx.core.content.ContextCompat.getColor(getContext(), R.color.chip_bg_unselected);
+        int activeText = androidx.core.content.ContextCompat.getColor(getContext(), R.color.background_dark);
+        int inactiveText = androidx.core.content.ContextCompat.getColor(getContext(), R.color.chip_text_unselected);
 
         setCatStyle(btnCatFood, "餐饮".equals(selectedCategory), activeColor, inactiveColor, activeText, inactiveText);
         setCatStyle(btnCatTransport, "交通".equals(selectedCategory), activeColor, inactiveColor, activeText,
@@ -340,10 +383,10 @@ public class AddBillFragment extends Fragment {
         if (btnSplitEqual == null)
             return;
 
-        int activeColor = 0xFFFFFFFF; // White
-        int inactiveColor = 0xFFF1F5F9; // Light Gray
-        int activeText = 0xFF000000;
-        int inactiveText = 0xFF757575;
+        int activeColor = androidx.core.content.ContextCompat.getColor(getContext(), R.color.app_surface);
+        int inactiveColor = androidx.core.content.ContextCompat.getColor(getContext(), R.color.tab_bg);
+        int activeText = androidx.core.content.ContextCompat.getColor(getContext(), R.color.app_text_primary);
+        int inactiveText = androidx.core.content.ContextCompat.getColor(getContext(), R.color.app_text_secondary);
 
         btnSplitEqual.setBackgroundColor("EQUAL".equals(selectedSplitType) ? activeColor : inactiveColor);
         btnSplitEqual.setTextColor("EQUAL".equals(selectedSplitType) ? activeText : inactiveText);
@@ -565,7 +608,7 @@ public class AddBillFragment extends Fragment {
             android.widget.TextView nameView = new android.widget.TextView(getContext());
             nameView.setText(m.name);
             nameView.setTextSize(16);
-            nameView.setTextColor(android.graphics.Color.BLACK);
+            nameView.setTextColor(androidx.core.content.ContextCompat.getColor(getContext(), R.color.app_text_primary));
             nameView.setPadding(24, 0, 0, 0);
             android.widget.LinearLayout.LayoutParams params = new android.widget.LinearLayout.LayoutParams(0,
                     android.view.ViewGroup.LayoutParams.WRAP_CONTENT, 1);
@@ -581,6 +624,8 @@ public class AddBillFragment extends Fragment {
                 input.setWidth(200);
                 input.setTextAlignment(View.TEXT_ALIGNMENT_VIEW_END);
                 input.setText(selectedSplitType.equals("WEIGHT") ? "1" : "");
+                input.setTextColor(
+                        androidx.core.content.ContextCompat.getColor(getContext(), R.color.app_text_primary));
 
                 // Add listener to recalculate
                 input.addTextChangedListener(new android.text.TextWatcher() {
@@ -600,7 +645,8 @@ public class AddBillFragment extends Fragment {
             } else {
                 android.widget.TextView amountView = new android.widget.TextView(getContext());
                 amountView.setText("¥0.00");
-                amountView.setTextColor(android.graphics.Color.GRAY);
+                amountView.setTextColor(
+                        androidx.core.content.ContextCompat.getColor(getContext(), R.color.app_text_secondary));
                 participantsAmountViews.put(m.id, amountView);
                 row.addView(amountView);
             }
@@ -815,10 +861,161 @@ public class AddBillFragment extends Fragment {
                     @Override
                     public void onFailure(retrofit2.Call<com.google.gson.JsonObject> call,
                             Throwable t) {
-                        android.util.Log.e("AddBillFragment", "Network error", t);
                         android.widget.Toast.makeText(getContext(), "Network Error: " + t.getMessage(),
                                 android.widget.Toast.LENGTH_LONG).show();
                     }
                 });
+    }
+
+    private void uploadReceipt(Uri uri) {
+        try {
+            android.content.Context context = getContext();
+            if (context == null)
+                return;
+
+            // Copy Uri to Cache File
+            File file = new File(context.getCacheDir(), "receipt_" + System.currentTimeMillis() + ".jpg");
+            try (InputStream inputStream = context.getContentResolver().openInputStream(uri);
+                    FileOutputStream outputStream = new FileOutputStream(file)) {
+                byte[] buffer = new byte[1024];
+                int length;
+                while ((length = inputStream.read(buffer)) > 0) {
+                    outputStream.write(buffer, 0, length);
+                }
+            }
+
+            android.widget.Toast.makeText(context, "正在上传并识别...", Toast.LENGTH_SHORT).show();
+
+            // Prepare Request
+            RequestBody requestFile = RequestBody.create(MediaType.parse("image/*"), file);
+            MultipartBody.Part body = MultipartBody.Part.createFormData("file", file.getName(), requestFile);
+
+            // Upload
+            // Pass skipOCR = false because we WANT OCR for bills
+            com.example.roomiesplit.network.RetrofitClient.getApiService().uploadImage(body, false)
+                    .enqueue(new retrofit2.Callback<com.google.gson.JsonObject>() {
+                        @Override
+                        public void onResponse(retrofit2.Call<com.google.gson.JsonObject> call,
+                                retrofit2.Response<com.google.gson.JsonObject> response) {
+                            if (response.isSuccessful() && response.body() != null) {
+                                com.google.gson.JsonObject data = response.body().getAsJsonObject("data");
+                                if (data != null && data.has("ocr")) {
+                                    com.google.gson.JsonObject ocr = data.getAsJsonObject("ocr");
+                                    populateOCRData(ocr);
+                                } else {
+                                    // Fallback if no OCR data (legacy or failed)
+                                    android.widget.Toast.makeText(getContext(), "识别完成，未提取到有效信息", Toast.LENGTH_SHORT)
+                                            .show();
+                                }
+                            } else {
+                                android.widget.Toast
+                                        .makeText(getContext(), "上传失败: " + response.code(), Toast.LENGTH_SHORT).show();
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(retrofit2.Call<com.google.gson.JsonObject> call, Throwable t) {
+                            android.widget.Toast.makeText(getContext(), "网络错误: " + t.getMessage(), Toast.LENGTH_SHORT)
+                                    .show();
+                        }
+                    });
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            android.widget.Toast.makeText(getContext(), "文件处理错误", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private void populateOCRData(com.google.gson.JsonObject ocr) {
+        if (ocr == null || getView() == null || getContext() == null)
+            return;
+
+        getActivity().runOnUiThread(() -> {
+            try {
+                if (ocr.has("amount") && !ocr.get("amount").isJsonNull()) {
+                    try {
+                        double amount = ocr.get("amount").getAsDouble();
+                        android.widget.EditText amountInput = getView().findViewById(R.id.input_amount);
+                        if (amountInput != null)
+                            amountInput.setText(String.format("%.2f", amount));
+                    } catch (Exception e) {
+                        // Fallback try as string
+                        // String s = ocr.get("amount").getAsString(); ...
+                    }
+                }
+                if (ocr.has("description") && !ocr.get("description").isJsonNull()) {
+                    String desc = ocr.get("description").getAsString();
+                    android.widget.EditText descInput = getView().findViewById(R.id.input_description);
+                    if (descInput != null)
+                        descInput.setText(desc);
+                }
+                if (ocr.has("category") && !ocr.get("category").isJsonNull()) {
+                    String cat = ocr.get("category").getAsString();
+                    if (cat != null && !cat.isEmpty()) {
+                        selectedCategory = cat;
+                        updateCategoryUI();
+                    }
+                }
+                if (ocr.has("date") && !ocr.get("date").isJsonNull()) {
+                    String dateStr = ocr.get("date").getAsString();
+                    try {
+                        selectedDate = java.time.LocalDate.parse(dateStr);
+                        updateDateUI();
+                    } catch (Exception e) {
+                    }
+                }
+
+                android.widget.Toast.makeText(getContext(), "识别成功！", Toast.LENGTH_SHORT).show();
+            } catch (Exception e) {
+                e.printStackTrace();
+                android.widget.Toast.makeText(getContext(), "数据解析错误: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    private void showImageSourceDialog() {
+        String[] options = { "拍照", "从相册选择" };
+        new android.app.AlertDialog.Builder(getContext())
+                .setTitle("上传小票")
+                .setItems(options, (dialog, which) -> {
+                    if (which == 0) {
+                        checkCameraPermissionAndOpen();
+                    } else {
+                        // Choose from Gallery
+                        pickImageLauncher.launch("image/*");
+                    }
+                })
+                .show();
+    }
+
+    private void checkCameraPermissionAndOpen() {
+        if (androidx.core.content.ContextCompat.checkSelfPermission(requireContext(),
+                android.Manifest.permission.CAMERA) == android.content.pm.PackageManager.PERMISSION_GRANTED) {
+            openCamera();
+        } else {
+            requestCameraPermissionLauncher.launch(android.Manifest.permission.CAMERA);
+        }
+    }
+
+    private void openCamera() {
+        currentPhotoUri = createImageUri();
+        if (currentPhotoUri != null) {
+            takePictureLauncher.launch(currentPhotoUri);
+        }
+    }
+
+    private Uri createImageUri() {
+        try {
+            String fileName = "receipt_" + System.currentTimeMillis() + ".jpg";
+            File storageDir = requireContext().getExternalFilesDir(android.os.Environment.DIRECTORY_PICTURES);
+            File imageFile = new File(storageDir, fileName);
+            return androidx.core.content.FileProvider.getUriForFile(requireContext(),
+                    requireContext().getPackageName() + ".fileprovider",
+                    imageFile);
+        } catch (Exception e) {
+            e.printStackTrace();
+            Toast.makeText(getContext(), "无法创建图片文件", Toast.LENGTH_SHORT).show();
+            return null;
+        }
     }
 }

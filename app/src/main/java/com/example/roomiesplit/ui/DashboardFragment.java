@@ -52,7 +52,7 @@ public class DashboardFragment extends Fragment {
                                 if (ledgerId != null && ledgerId != -1 && userId != -1) {
                                         loadDashboardStats(userId, ledgerId, getView());
                                 }
-                                handler.postDelayed(this, 1000); // Poll every 1 second
+                                handler.postDelayed(this, 3000); // Poll every 3 seconds
                         }
                 }
         };
@@ -318,6 +318,7 @@ public class DashboardFragment extends Fragment {
                         newBtn.setOnClickListener(v -> {
                                 new InviteRoommateDialogFragment().show(getParentFragmentManager(), "InviteDialog");
                         });
+                        newBtn.setTag(Long.MAX_VALUE); // Prevent removal
                         inviteViewToAdd = newBtn;
                 }
 
@@ -331,14 +332,20 @@ public class DashboardFragment extends Fragment {
                         }
                 }
 
-                // Remove obsolete member views (and original XML static placeholders)
+                // Remove obsolete member views (Keeping members and the invite button)
                 for (int i = container.getChildCount() - 1; i >= 0; i--) {
                         View child = container.getChildAt(i);
                         Object tag = child.getTag();
-                        // If tag is not a Long (it's a placeholder) or it IS a Long but not in current
-                        // members -> Remove it
-                        if (!(tag instanceof Long) || !currentMemberIds.contains((Long) tag)) {
+                        // Remove if it's not a Long, or if it is a Long (Member ID) but not in current
+                        // list
+                        // Exception: Long.MAX_VALUE is the Invite Button
+                        if (!(tag instanceof Long)) {
                                 container.removeViewAt(i);
+                        } else {
+                                Long idTag = (Long) tag;
+                                if (!idTag.equals(Long.MAX_VALUE) && !currentMemberIds.contains(idTag)) {
+                                        container.removeViewAt(i);
+                                }
                         }
                 }
 
@@ -387,17 +394,22 @@ public class DashboardFragment extends Fragment {
                                 if (bg != null)
                                         bg.setBackgroundColor(color);
 
+                                String avatarUrl = null;
+                                if (m.has("avatarUrl") && !m.get("avatarUrl").isJsonNull()) {
+                                        avatarUrl = m.get("avatarUrl").getAsString();
+                                }
+
                                 // Only load avatar if new (to avoid flicker)
                                 if (isNew) {
                                         loadUserAvatar(uId, item.findViewById(R.id.image_avatar),
                                                         item.findViewById(R.id.text_initials),
-                                                        item.findViewById(R.id.view_avatar_bg), name, color);
+                                                        item.findViewById(R.id.view_avatar_bg), name, color, avatarUrl);
                                 }
                         }
                 }
 
-                // Add Invite Button at the end
-                if (inviteViewToAdd != null) {
+                // Add Invite Button at the end if it's not already added (check parent)
+                if (inviteViewToAdd != null && inviteViewToAdd.getParent() != container) {
                         container.addView(inviteViewToAdd);
                 }
         }
@@ -414,10 +426,16 @@ public class DashboardFragment extends Fragment {
 
         private void loadUserAvatar(Long userId, android.widget.ImageView avatarImg,
                         android.widget.TextView textInitials, View bgView,
-                        String displayName, int statusColor) {
+                        String displayName, int statusColor, String preloadedAvatarUrl) {
                 // First, show initial as fallback
                 if (displayName != null && !displayName.isEmpty()) {
                         textInitials.setText(displayName.substring(0, 1).toUpperCase());
+                }
+
+                // Optimization: Use preloaded URL if available
+                if (preloadedAvatarUrl != null) {
+                        displayAvatar(preloadedAvatarUrl, avatarImg, textInitials, bgView);
+                        return;
                 }
 
                 // Try to load user profile to get avatar
@@ -435,48 +453,8 @@ public class DashboardFragment extends Fragment {
                                                                                 .get("avatarUrl").isJsonNull()) {
                                                                         String avatarUrl = userData.get("avatarUrl")
                                                                                         .getAsString();
-
-                                                                        if (avatarUrl.startsWith("http")) {
-                                                                                // Load image URL using Glide
-                                                                                com.bumptech.glide.Glide.with(
-                                                                                                DashboardFragment.this)
-                                                                                                .load(avatarUrl)
-                                                                                                .circleCrop()
-                                                                                                .into(avatarImg);
-                                                                                avatarImg.setVisibility(View.VISIBLE);
-                                                                                textInitials.setVisibility(View.GONE);
-                                                                        } else if (avatarUrl.startsWith("avatar_")) {
-                                                                                // Default colored avatar - keep showing
-                                                                                // initial
-                                                                                int avatarColor;
-                                                                                switch (avatarUrl) {
-                                                                                        case "avatar_blue":
-                                                                                                avatarColor = 0xFF4285F4;
-                                                                                                break;
-                                                                                        case "avatar_green":
-                                                                                                avatarColor = 0xFF34A853;
-                                                                                                break;
-                                                                                        case "avatar_purple":
-                                                                                                avatarColor = 0xFF9C27B0;
-                                                                                                break;
-                                                                                        case "avatar_orange":
-                                                                                                avatarColor = 0xFFFF9800;
-                                                                                                break;
-                                                                                        case "avatar_pink":
-                                                                                                avatarColor = 0xFFE91E63;
-                                                                                                break;
-                                                                                        default:
-                                                                                                // Use a neutral gray if
-                                                                                                // not matched, instead
-                                                                                                // of statusColor
-                                                                                                avatarColor = 0xFF757575;
-                                                                                }
-                                                                                // Override background with avatar color
-                                                                                bgView.setBackgroundColor(avatarColor);
-                                                                                avatarImg.setVisibility(View.GONE);
-                                                                                textInitials.setVisibility(
-                                                                                                View.VISIBLE);
-                                                                        }
+                                                                        displayAvatar(avatarUrl, avatarImg,
+                                                                                        textInitials, bgView);
                                                                 }
                                                         }
                                                 }
@@ -491,6 +469,46 @@ public class DashboardFragment extends Fragment {
                                                 textInitials.setVisibility(View.VISIBLE);
                                         }
                                 });
+        }
+
+        private void displayAvatar(String avatarUrl, android.widget.ImageView avatarImg,
+                        android.widget.TextView textInitials, View bgView) {
+                if (avatarUrl.startsWith("http")) {
+                        // Load image URL using Glide
+                        com.bumptech.glide.Glide.with(DashboardFragment.this)
+                                        .load(avatarUrl)
+                                        .circleCrop()
+                                        .dontAnimate() // Prevent crossfade flash
+                                        .into(avatarImg);
+                        avatarImg.setVisibility(View.VISIBLE);
+                        textInitials.setVisibility(View.GONE);
+                } else if (avatarUrl.startsWith("avatar_")) {
+                        // Default colored avatar - keep showing initial
+                        int avatarColor;
+                        switch (avatarUrl) {
+                                case "avatar_blue":
+                                        avatarColor = 0xFF4285F4;
+                                        break;
+                                case "avatar_green":
+                                        avatarColor = 0xFF34A853;
+                                        break;
+                                case "avatar_purple":
+                                        avatarColor = 0xFF9C27B0;
+                                        break;
+                                case "avatar_orange":
+                                        avatarColor = 0xFFFF9800;
+                                        break;
+                                case "avatar_pink":
+                                        avatarColor = 0xFFE91E63;
+                                        break;
+                                default:
+                                        avatarColor = 0xFF757575;
+                        }
+                        // Override background with avatar color
+                        bgView.setBackgroundColor(avatarColor);
+                        avatarImg.setVisibility(View.GONE);
+                        textInitials.setVisibility(View.VISIBLE);
+                }
         }
 
         public static class LedgerMember {

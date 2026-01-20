@@ -1,19 +1,15 @@
 [
     {
-        "merged": "D:\\Gradle\\.gradle\\daemon\\8.13\\com.example.roomiesplit.app-merged_res-4:\\layout_dialog_status_selection.xml.flat",
-        "source": "D:\\Gradle\\.gradle\\daemon\\8.13\\com.example.roomiesplit.app-main-6:\\layout\\dialog_status_selection.xml"
-    },
-    {
-        "merged": "D:\\Gradle\\.gradle\\daemon\\8.13\\com.example.roomiesplit.app-merged_res-4:\\layout_dialog_invite_roommate.xml.flat",
-        "source": "D:\\Gradle\\.gradle\\daemon\\8.13\\com.example.roomiesplit.app-main-6:\\layout\\dialog_invite_roommate.xml"
-    },
-    {
         "merged": "D:\\Gradle\\.gradle\\daemon\\8.13\\com.example.roomiesplit.app-merged_res-4:\\drawable_ic_category_other.png.flat",
         "source": "D:\\Gradle\\.gradle\\daemon\\8.13\\com.example.roomiesplit.app-main-6:\\drawable\\ic_category_other.png"
     },
     {
         "merged": "D:\\Gradle\\.gradle\\daemon\\8.13\\com.example.roomiesplit.app-merged_res-4:\\drawable_ic_category_transport.png.flat",
         "source": "D:\\Gradle\\.gradle\\daemon\\8.13\\com.example.roomiesplit.app-main-6:\\drawable\\ic_category_transport.png"
+    },
+    {
+        "merged": "D:\\Gradle\\.gradle\\daemon\\8.13\\com.example.roomiesplit.app-merged_res-4:\\mipmap-xxhdpi_app_icon_source_round.png.flat",
+        "source": "D:\\Gradle\\.gradle\\daemon\\8.13\\com.example.roomiesplit.app-main-6:\\mipmap-xxhdpi\\app_icon_source_round.png"
     },
     {
         "merged": "D:\\Gradle\\.gradle\\daemon\\8.13\\com.example.roomiesplit.app-merged_res-4:\\menu_bottom_nav_menu.xml.flat",
@@ -24,28 +20,12 @@
         "source": "D:\\Gradle\\.gradle\\daemon\\8.13\\com.example.roomiesplit.app-main-6:\\drawable\\ic_add_24dp.xml"
     },
     {
-        "merged": "D:\\Gradle\\.gradle\\daemon\\8.13\\com.example.roomiesplit.app-merged_res-4:\\layout_fragment_debt.xml.flat",
-        "source": "D:\\Gradle\\.gradle\\daemon\\8.13\\com.example.roomiesplit.app-main-6:\\layout\\fragment_debt.xml"
-    },
-    {
         "merged": "D:\\Gradle\\.gradle\\daemon\\8.13\\com.example.roomiesplit.app-merged_res-4:\\drawable_ic_account_balance_wallet_24dp.xml.flat",
         "source": "D:\\Gradle\\.gradle\\daemon\\8.13\\com.example.roomiesplit.app-main-6:\\drawable\\ic_account_balance_wallet_24dp.xml"
     },
     {
-        "merged": "D:\\Gradle\\.gradle\\daemon\\8.13\\com.example.roomiesplit.app-merged_res-4:\\layout_fragment_welcome.xml.flat",
-        "source": "D:\\Gradle\\.gradle\\daemon\\8.13\\com.example.roomiesplit.app-main-6:\\layout\\fragment_welcome.xml"
-    },
-    {
         "merged": "D:\\Gradle\\.gradle\\daemon\\8.13\\com.example.roomiesplit.app-merged_res-4:\\layout_fragment_ledger.xml.flat",
         "source": "D:\\Gradle\\.gradle\\daemon\\8.13\\com.example.roomiesplit.app-main-6:\\layout\\fragment_ledger.xml"
-    },
-    {
-        "merged": "D:\\Gradle\\.gradle\\daemon\\8.13\\com.example.roomiesplit.app-merged_res-4:\\drawable_ic_category_fun.png.flat",
-        "source": "D:\\Gradle\\.gradle\\daemon\\8.13\\com.example.roomiesplit.app-main-6:\\drawable\\ic_category_fun.png"
-    },
-    {
-        "merged": "D:\\Gradle\\.gradle\\daemon\\8.13\\com.example.roomiesplit.app-merged_res-4:\\layout_fragment_karma.xml.flat",
-        "source": "D:\\Gradle\\.gradle\\daemon\\8.13\\com.example.roomiesplit.app-main-6:\\layout\\fragment_karma.xml"
     },
     {
         "merged": "D:\\Gradle\\.gradle\\daemon\\8.13\\com.example.roomiesplit.app-merged_res-4:\\drawable_message.png.flat",
@@ -56,92 +36,44 @@
         "source": "D:\\Gradle\\.gradle\\daemon\\8.13\\com.example.roomiesplit.app-main-6:\\layout\\fragment_dashboard.xml"
     },
     {
-        "merged": "D:\\Gradle\\.gradle\\daemon\\8.13\\com.example.roomiesplit.app-merged_res-4:\\drawable_ic_launcher_background.xml.flat",
-        "source": "D:\\Gradle\\.gradle\\daemon\\8.13\\com.example.roomiesplit.app-main-6:\\drawable\\ic_launcher_background.xml"
-    },
-    {
-        "merged": "D:\\Gradle\\.gradle\\daemon\\8.13\\com.example.roomiesplit.app-merged_res-4:\\layout_fragment_report.xml.flat",
-        "source": "D:\\Gradle\\.gradle\\daemon\\8.13\\com.example.roomiesplit.app-main-6:\\layout\\fragment_report.xml"
-    },
-    {
-        "merged": "D:\\Gradle\\.gradle\\daemon\\8.13\\com.example.roomiesplit.app-merged_res-4:\\layout_fragment_login.xml.flat",
-        "source": "D:\\Gradle\\.gradle\\daemon\\8.13\\com.example.roomiesplit.app-main-6:\\layout\\fragment_login.xml"
+        "merged": "D:\\Gradle\\.gradle\\daemon\\8.13\\com.example.roomiesplit.app-merged_res-4:\\mipmap-xxhdpi_app_icon_source.png.flat",
+        "source": "D:\\Gradle\\.gradle\\daemon\\8.13\\com.example.roomiesplit.app-main-6:\\mipmap-xxhdpi\\app_icon_source.png"
     },
     {
         "merged": "D:\\Gradle\\.gradle\\daemon\\8.13\\com.example.roomiesplit.app-merged_res-4:\\drawable_ic_calendar_today_24dp.xml.flat",
         "source": "D:\\Gradle\\.gradle\\daemon\\8.13\\com.example.roomiesplit.app-main-6:\\drawable\\ic_calendar_today_24dp.xml"
     },
     {
-        "merged": "D:\\Gradle\\.gradle\\daemon\\8.13\\com.example.roomiesplit.app-merged_res-4:\\layout_fragment_calendar.xml.flat",
-        "source": "D:\\Gradle\\.gradle\\daemon\\8.13\\com.example.roomiesplit.app-main-6:\\layout\\fragment_calendar.xml"
-    },
-    {
         "merged": "D:\\Gradle\\.gradle\\daemon\\8.13\\com.example.roomiesplit.app-merged_res-4:\\drawable_ic_close_24dp.xml.flat",
         "source": "D:\\Gradle\\.gradle\\daemon\\8.13\\com.example.roomiesplit.app-main-6:\\drawable\\ic_close_24dp.xml"
     },
     {
-        "merged": "com.example.roomiesplit.app-merged_res-4:/layout_fragment_dashboard.xml.flat",
-        "source": "com.example.roomiesplit.app-main-6:/layout/fragment_dashboard.xml"
+        "merged": "D:\\Gradle\\.gradle\\daemon\\8.13\\com.example.roomiesplit.app-merged_res-4:\\mipmap-anydpi-v26_ic_launcher.xml.flat",
+        "source": "D:\\Gradle\\.gradle\\daemon\\8.13\\com.example.roomiesplit.app-main-6:\\mipmap-anydpi-v26\\ic_launcher.xml"
     },
     {
-        "merged": "D:\\Gradle\\.gradle\\daemon\\8.13\\com.example.roomiesplit.app-merged_res-4:\\drawable_ic_category_shopping.png.flat",
-        "source": "D:\\Gradle\\.gradle\\daemon\\8.13\\com.example.roomiesplit.app-main-6:\\drawable\\ic_category_shopping.png"
+        "merged": "com.example.roomiesplit.app-merged_res-4:/layout_dialog_invite_roommate.xml.flat",
+        "source": "com.example.roomiesplit.app-main-6:/layout/dialog_invite_roommate.xml"
     },
     {
         "merged": "D:\\Gradle\\.gradle\\daemon\\8.13\\com.example.roomiesplit.app-merged_res-4:\\layout_item_debt_settlement.xml.flat",
         "source": "D:\\Gradle\\.gradle\\daemon\\8.13\\com.example.roomiesplit.app-main-6:\\layout\\item_debt_settlement.xml"
     },
     {
-        "merged": "D:\\Gradle\\.gradle\\daemon\\8.13\\com.example.roomiesplit.app-merged_res-4:\\layout_fragment_create_join.xml.flat",
-        "source": "D:\\Gradle\\.gradle\\daemon\\8.13\\com.example.roomiesplit.app-main-6:\\layout\\fragment_create_join.xml"
-    },
-    {
         "merged": "D:\\Gradle\\.gradle\\daemon\\8.13\\com.example.roomiesplit.app-merged_res-4:\\layout_item_calendar_day.xml.flat",
         "source": "D:\\Gradle\\.gradle\\daemon\\8.13\\com.example.roomiesplit.app-main-6:\\layout\\item_calendar_day.xml"
-    },
-    {
-        "merged": "D:\\Gradle\\.gradle\\daemon\\8.13\\com.example.roomiesplit.app-merged_res-4:\\layout_fragment_profile.xml.flat",
-        "source": "D:\\Gradle\\.gradle\\daemon\\8.13\\com.example.roomiesplit.app-main-6:\\layout\\fragment_profile.xml"
-    },
-    {
-        "merged": "D:\\Gradle\\.gradle\\daemon\\8.13\\com.example.roomiesplit.app-merged_res-4:\\layout_fragment_add_bill.xml.flat",
-        "source": "D:\\Gradle\\.gradle\\daemon\\8.13\\com.example.roomiesplit.app-main-6:\\layout\\fragment_add_bill.xml"
     },
     {
         "merged": "D:\\Gradle\\.gradle\\daemon\\8.13\\com.example.roomiesplit.app-merged_res-4:\\layout_fragment_register.xml.flat",
         "source": "D:\\Gradle\\.gradle\\daemon\\8.13\\com.example.roomiesplit.app-main-6:\\layout\\fragment_register.xml"
     },
     {
-        "merged": "D:\\Gradle\\.gradle\\daemon\\8.13\\com.example.roomiesplit.app-merged_res-4:\\mipmap_ic_launcher.xml.flat",
-        "source": "D:\\Gradle\\.gradle\\daemon\\8.13\\com.example.roomiesplit.app-main-6:\\mipmap\\ic_launcher.xml"
-    },
-    {
-        "merged": "D:\\Gradle\\.gradle\\daemon\\8.13\\com.example.roomiesplit.app-merged_res-4:\\layout_item_transaction.xml.flat",
-        "source": "D:\\Gradle\\.gradle\\daemon\\8.13\\com.example.roomiesplit.app-main-6:\\layout\\item_transaction.xml"
-    },
-    {
-        "merged": "D:\\Gradle\\.gradle\\daemon\\8.13\\com.example.roomiesplit.app-merged_res-4:\\layout_item_roommate_status.xml.flat",
-        "source": "D:\\Gradle\\.gradle\\daemon\\8.13\\com.example.roomiesplit.app-main-6:\\layout\\item_roommate_status.xml"
-    },
-    {
-        "merged": "D:\\Gradle\\.gradle\\daemon\\8.13\\com.example.roomiesplit.app-merged_res-4:\\layout_fragment_decision.xml.flat",
-        "source": "D:\\Gradle\\.gradle\\daemon\\8.13\\com.example.roomiesplit.app-main-6:\\layout\\fragment_decision.xml"
-    },
-    {
         "merged": "D:\\Gradle\\.gradle\\daemon\\8.13\\com.example.roomiesplit.app-merged_res-4:\\drawable_ic_person_24dp.xml.flat",
         "source": "D:\\Gradle\\.gradle\\daemon\\8.13\\com.example.roomiesplit.app-main-6:\\drawable\\ic_person_24dp.xml"
     },
     {
-        "merged": "D:\\Gradle\\.gradle\\daemon\\8.13\\com.example.roomiesplit.app-merged_res-4:\\layout_item_invite_button.xml.flat",
-        "source": "D:\\Gradle\\.gradle\\daemon\\8.13\\com.example.roomiesplit.app-main-6:\\layout\\item_invite_button.xml"
-    },
-    {
         "merged": "D:\\Gradle\\.gradle\\daemon\\8.13\\com.example.roomiesplit.app-merged_res-4:\\layout_activity_main.xml.flat",
         "source": "D:\\Gradle\\.gradle\\daemon\\8.13\\com.example.roomiesplit.app-main-6:\\layout\\activity_main.xml"
-    },
-    {
-        "merged": "D:\\Gradle\\.gradle\\daemon\\8.13\\com.example.roomiesplit.app-merged_res-4:\\mipmap_ic_launcher_round.xml.flat",
-        "source": "D:\\Gradle\\.gradle\\daemon\\8.13\\com.example.roomiesplit.app-main-6:\\mipmap\\ic_launcher_round.xml"
     },
     {
         "merged": "D:\\Gradle\\.gradle\\daemon\\8.13\\com.example.roomiesplit.app-merged_res-4:\\navigation_mobile_navigation.xml.flat",
@@ -150,10 +82,6 @@
     {
         "merged": "D:\\Gradle\\.gradle\\daemon\\8.13\\com.example.roomiesplit.app-merged_res-4:\\drawable_ic_category_food.png.flat",
         "source": "D:\\Gradle\\.gradle\\daemon\\8.13\\com.example.roomiesplit.app-main-6:\\drawable\\ic_category_food.png"
-    },
-    {
-        "merged": "D:\\Gradle\\.gradle\\daemon\\8.13\\com.example.roomiesplit.app-merged_res-4:\\drawable_bg_icon_circle.xml.flat",
-        "source": "D:\\Gradle\\.gradle\\daemon\\8.13\\com.example.roomiesplit.app-main-6:\\drawable\\bg_icon_circle.xml"
     },
     {
         "merged": "D:\\Gradle\\.gradle\\daemon\\8.13\\com.example.roomiesplit.app-merged_res-4:\\drawable_ic_dashboard_24dp.xml.flat",
@@ -176,8 +104,8 @@
         "source": "D:\\Gradle\\.gradle\\daemon\\8.13\\com.example.roomiesplit.app-main-6:\\drawable\\bg_dot.xml"
     },
     {
-        "merged": "D:\\Gradle\\.gradle\\daemon\\8.13\\com.example.roomiesplit.app-merged_res-4:\\layout_item_message.xml.flat",
-        "source": "D:\\Gradle\\.gradle\\daemon\\8.13\\com.example.roomiesplit.app-main-6:\\layout\\item_message.xml"
+        "merged": "D:\\Gradle\\.gradle\\daemon\\8.13\\com.example.roomiesplit.app-merged_res-4:\\drawable_ic_camera_alt_24dp.xml.flat",
+        "source": "D:\\Gradle\\.gradle\\daemon\\8.13\\com.example.roomiesplit.app-main-6:\\drawable\\ic_camera_alt_24dp.xml"
     },
     {
         "merged": "D:\\Gradle\\.gradle\\daemon\\8.13\\com.example.roomiesplit.app-merged_res-4:\\drawable_toupiao.png.flat",
@@ -186,5 +114,101 @@
     {
         "merged": "D:\\Gradle\\.gradle\\daemon\\8.13\\com.example.roomiesplit.app-merged_res-4:\\layout_fragment_messages.xml.flat",
         "source": "D:\\Gradle\\.gradle\\daemon\\8.13\\com.example.roomiesplit.app-main-6:\\layout\\fragment_messages.xml"
+    },
+    {
+        "merged": "D:\\Gradle\\.gradle\\daemon\\8.13\\com.example.roomiesplit.app-merged_res-4:\\drawable_ic_icon_composite_round.xml.flat",
+        "source": "D:\\Gradle\\.gradle\\daemon\\8.13\\com.example.roomiesplit.app-main-6:\\drawable\\ic_icon_composite_round.xml"
+    },
+    {
+        "merged": "D:\\Gradle\\.gradle\\daemon\\8.13\\com.example.roomiesplit.app-merged_res-4:\\layout_dialog_status_selection.xml.flat",
+        "source": "D:\\Gradle\\.gradle\\daemon\\8.13\\com.example.roomiesplit.app-main-6:\\layout\\dialog_status_selection.xml"
+    },
+    {
+        "merged": "D:\\Gradle\\.gradle\\daemon\\8.13\\com.example.roomiesplit.app-merged_res-4:\\layout_dialog_invite_roommate.xml.flat",
+        "source": "D:\\Gradle\\.gradle\\daemon\\8.13\\com.example.roomiesplit.app-main-6:\\layout\\dialog_invite_roommate.xml"
+    },
+    {
+        "merged": "D:\\Gradle\\.gradle\\daemon\\8.13\\com.example.roomiesplit.app-merged_res-4:\\layout_fragment_debt.xml.flat",
+        "source": "D:\\Gradle\\.gradle\\daemon\\8.13\\com.example.roomiesplit.app-main-6:\\layout\\fragment_debt.xml"
+    },
+    {
+        "merged": "D:\\Gradle\\.gradle\\daemon\\8.13\\com.example.roomiesplit.app-merged_res-4:\\layout_fragment_welcome.xml.flat",
+        "source": "D:\\Gradle\\.gradle\\daemon\\8.13\\com.example.roomiesplit.app-main-6:\\layout\\fragment_welcome.xml"
+    },
+    {
+        "merged": "D:\\Gradle\\.gradle\\daemon\\8.13\\com.example.roomiesplit.app-merged_res-4:\\drawable_ic_icon_composite.xml.flat",
+        "source": "D:\\Gradle\\.gradle\\daemon\\8.13\\com.example.roomiesplit.app-main-6:\\drawable\\ic_icon_composite.xml"
+    },
+    {
+        "merged": "D:\\Gradle\\.gradle\\daemon\\8.13\\com.example.roomiesplit.app-merged_res-4:\\layout_fragment_karma.xml.flat",
+        "source": "D:\\Gradle\\.gradle\\daemon\\8.13\\com.example.roomiesplit.app-main-6:\\layout\\fragment_karma.xml"
+    },
+    {
+        "merged": "D:\\Gradle\\.gradle\\daemon\\8.13\\com.example.roomiesplit.app-merged_res-4:\\drawable_ic_category_fun.png.flat",
+        "source": "D:\\Gradle\\.gradle\\daemon\\8.13\\com.example.roomiesplit.app-main-6:\\drawable\\ic_category_fun.png"
+    },
+    {
+        "merged": "D:\\Gradle\\.gradle\\daemon\\8.13\\com.example.roomiesplit.app-merged_res-4:\\drawable_ic_launcher_background.xml.flat",
+        "source": "D:\\Gradle\\.gradle\\daemon\\8.13\\com.example.roomiesplit.app-main-6:\\drawable\\ic_launcher_background.xml"
+    },
+    {
+        "merged": "D:\\Gradle\\.gradle\\daemon\\8.13\\com.example.roomiesplit.app-merged_res-4:\\layout_fragment_report.xml.flat",
+        "source": "D:\\Gradle\\.gradle\\daemon\\8.13\\com.example.roomiesplit.app-main-6:\\layout\\fragment_report.xml"
+    },
+    {
+        "merged": "D:\\Gradle\\.gradle\\daemon\\8.13\\com.example.roomiesplit.app-merged_res-4:\\layout_fragment_login.xml.flat",
+        "source": "D:\\Gradle\\.gradle\\daemon\\8.13\\com.example.roomiesplit.app-main-6:\\layout\\fragment_login.xml"
+    },
+    {
+        "merged": "D:\\Gradle\\.gradle\\daemon\\8.13\\com.example.roomiesplit.app-merged_res-4:\\layout_fragment_calendar.xml.flat",
+        "source": "D:\\Gradle\\.gradle\\daemon\\8.13\\com.example.roomiesplit.app-main-6:\\layout\\fragment_calendar.xml"
+    },
+    {
+        "merged": "D:\\Gradle\\.gradle\\daemon\\8.13\\com.example.roomiesplit.app-merged_res-4:\\xml_file_paths.xml.flat",
+        "source": "D:\\Gradle\\.gradle\\daemon\\8.13\\com.example.roomiesplit.app-main-6:\\xml\\file_paths.xml"
+    },
+    {
+        "merged": "D:\\Gradle\\.gradle\\daemon\\8.13\\com.example.roomiesplit.app-merged_res-4:\\drawable_ic_category_shopping.png.flat",
+        "source": "D:\\Gradle\\.gradle\\daemon\\8.13\\com.example.roomiesplit.app-main-6:\\drawable\\ic_category_shopping.png"
+    },
+    {
+        "merged": "D:\\Gradle\\.gradle\\daemon\\8.13\\com.example.roomiesplit.app-merged_res-4:\\layout_fragment_create_join.xml.flat",
+        "source": "D:\\Gradle\\.gradle\\daemon\\8.13\\com.example.roomiesplit.app-main-6:\\layout\\fragment_create_join.xml"
+    },
+    {
+        "merged": "D:\\Gradle\\.gradle\\daemon\\8.13\\com.example.roomiesplit.app-merged_res-4:\\layout_fragment_add_bill.xml.flat",
+        "source": "D:\\Gradle\\.gradle\\daemon\\8.13\\com.example.roomiesplit.app-main-6:\\layout\\fragment_add_bill.xml"
+    },
+    {
+        "merged": "D:\\Gradle\\.gradle\\daemon\\8.13\\com.example.roomiesplit.app-merged_res-4:\\layout_fragment_profile.xml.flat",
+        "source": "D:\\Gradle\\.gradle\\daemon\\8.13\\com.example.roomiesplit.app-main-6:\\layout\\fragment_profile.xml"
+    },
+    {
+        "merged": "D:\\Gradle\\.gradle\\daemon\\8.13\\com.example.roomiesplit.app-merged_res-4:\\layout_item_roommate_status.xml.flat",
+        "source": "D:\\Gradle\\.gradle\\daemon\\8.13\\com.example.roomiesplit.app-main-6:\\layout\\item_roommate_status.xml"
+    },
+    {
+        "merged": "D:\\Gradle\\.gradle\\daemon\\8.13\\com.example.roomiesplit.app-merged_res-4:\\layout_item_transaction.xml.flat",
+        "source": "D:\\Gradle\\.gradle\\daemon\\8.13\\com.example.roomiesplit.app-main-6:\\layout\\item_transaction.xml"
+    },
+    {
+        "merged": "D:\\Gradle\\.gradle\\daemon\\8.13\\com.example.roomiesplit.app-merged_res-4:\\layout_fragment_decision.xml.flat",
+        "source": "D:\\Gradle\\.gradle\\daemon\\8.13\\com.example.roomiesplit.app-main-6:\\layout\\fragment_decision.xml"
+    },
+    {
+        "merged": "D:\\Gradle\\.gradle\\daemon\\8.13\\com.example.roomiesplit.app-merged_res-4:\\layout_item_invite_button.xml.flat",
+        "source": "D:\\Gradle\\.gradle\\daemon\\8.13\\com.example.roomiesplit.app-main-6:\\layout\\item_invite_button.xml"
+    },
+    {
+        "merged": "D:\\Gradle\\.gradle\\daemon\\8.13\\com.example.roomiesplit.app-merged_res-4:\\drawable_bg_icon_circle.xml.flat",
+        "source": "D:\\Gradle\\.gradle\\daemon\\8.13\\com.example.roomiesplit.app-main-6:\\drawable\\bg_icon_circle.xml"
+    },
+    {
+        "merged": "D:\\Gradle\\.gradle\\daemon\\8.13\\com.example.roomiesplit.app-merged_res-4:\\layout_item_message.xml.flat",
+        "source": "D:\\Gradle\\.gradle\\daemon\\8.13\\com.example.roomiesplit.app-main-6:\\layout\\item_message.xml"
+    },
+    {
+        "merged": "D:\\Gradle\\.gradle\\daemon\\8.13\\com.example.roomiesplit.app-merged_res-4:\\mipmap-anydpi-v26_ic_launcher_round.xml.flat",
+        "source": "D:\\Gradle\\.gradle\\daemon\\8.13\\com.example.roomiesplit.app-main-6:\\mipmap-anydpi-v26\\ic_launcher_round.xml"
     }
 ]

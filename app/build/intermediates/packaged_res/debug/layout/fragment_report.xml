@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/background_light"
+    android:background="@color/app_background"
     tools:context=".ui.ReportFragment">
 
     <!-- Header -->
@@ -16,7 +16,7 @@
         android:rotation="180"
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
-        app:tint="@color/black"
+        app:tint="@color/app_text_primary"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"/>
 
@@ -26,7 +26,7 @@
         android:text="消费报表"
         android:textSize="18sp"
         android:textStyle="bold"
-        android:textColor="@color/black"
+        android:textColor="@color/app_text_primary"
         app:layout_constraintStart_toEndOf="@id/btn_back_report"
         app:layout_constraintTop_toTopOf="@id/btn_back_report"
         app:layout_constraintBottom_toBottomOf="@id/btn_back_report"
@@ -39,7 +39,7 @@
         android:layout_height="wrap_content"
         android:layout_margin="20dp"
         app:cardCornerRadius="16dp"
-        app:cardBackgroundColor="@color/white"
+        app:cardBackgroundColor="@color/app_surface"
         app:layout_constraintTop_toBottomOf="@id/btn_back_report">
 
         <LinearLayout
@@ -54,7 +54,7 @@
                 android:text="选择时间段"
                 android:textSize="16sp"
                 android:textStyle="bold"
-                android:textColor="@color/black"/>
+                android:textColor="@color/app_text_primary"/>
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -70,7 +70,7 @@
                     android:layout_weight="1"
                     android:text="2023-10-01"
                     android:textSize="14sp"
-                    android:textColor="@color/black"
+                    android:textColor="@color/app_text_primary"
                     android:background="#F8FAFC"
                     android:padding="12dp"
                     android:gravity="center"/>
@@ -88,7 +88,7 @@
                     android:layout_weight="1"
                     android:text="2023-10-31"
                     android:textSize="14sp"
-                    android:textColor="@color/black"
+                    android:textColor="@color/app_text_primary"
                     android:background="#F8FAFC"
                     android:padding="12dp"
                     android:gravity="center"/>
@@ -126,7 +126,7 @@
         android:layout_marginHorizontal="20dp"
         android:layout_marginTop="8dp"
         app:cardCornerRadius="12dp"
-        app:cardBackgroundColor="@color/white"
+        app:cardBackgroundColor="@color/app_surface"
         app:layout_constraintTop_toBottomOf="@id/card_date_selection">
 
         <LinearLayout
@@ -142,7 +142,7 @@
                 android:text="总支出: ¥ 0.00"
                 android:textSize="16sp"
                 android:textStyle="bold"
-                android:textColor="@color/black"/>
+                android:textColor="@color/app_text_primary"/>
 
              <TextView
                 android:id="@+id/text_report_transaction_count"

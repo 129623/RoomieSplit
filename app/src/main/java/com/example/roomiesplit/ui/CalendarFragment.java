@@ -22,6 +22,8 @@ import java.util.Map;
 import java.util.HashMap;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Collections;
+import java.util.Comparator;
 
 public class CalendarFragment extends Fragment {
 
@@ -73,6 +75,8 @@ public class CalendarFragment extends Fragment {
                     showMonthView();
                 } else if (checkedId == R.id.btn_week_view) {
                     showWeekView();
+                } else if (checkedId == R.id.btn_list_view) {
+                    showListView();
                 }
                 updateDataForCurrentView();
             }
@@ -113,6 +117,11 @@ public class CalendarFragment extends Fragment {
     private void showWeekView() {
         calendarGrid.setVisibility(View.GONE);
         weekViewContainer.setVisibility(View.VISIBLE);
+    }
+
+    private void showListView() {
+        calendarGrid.setVisibility(View.GONE);
+        weekViewContainer.setVisibility(View.GONE);
     }
 
     private void fetchMemberData() {
@@ -197,6 +206,10 @@ public class CalendarFragment extends Fragment {
 
     private void updateDataForCurrentView() {
         boolean isMonthView = calendarGrid.getVisibility() == View.VISIBLE;
+        boolean isWeekView = weekViewContainer.getVisibility() == View.VISIBLE;
+        // If neither, it is List View
+        boolean isListView = !isMonthView && !isWeekView;
+
         int currentYear = currentDate.get(Calendar.YEAR);
         int currentMonth = currentDate.get(Calendar.MONTH);
         int currentDay = currentDate.get(Calendar.DAY_OF_MONTH);
@@ -252,7 +265,7 @@ public class CalendarFragment extends Fragment {
                     filtered.add(t);
                 }
             }
-        } else {
+        } else if (isWeekView) {
             // Week View Logic
             Calendar cal = (Calendar) currentDate.clone();
             cal.set(Calendar.DAY_OF_WEEK, cal.getFirstDayOfWeek());
@@ -286,6 +299,18 @@ public class CalendarFragment extends Fragment {
                     filtered.add(t);
                 }
             }
+        } else {
+            // List View
+            filtered.addAll(allTransactions);
+            Collections.sort(filtered, new Comparator<JsonObject>() {
+                @Override
+                public int compare(JsonObject o1, JsonObject o2) {
+                    long t1 = getTimestamp(o1);
+                    long t2 = getTimestamp(o2);
+                    return Long.compare(t2, t1); // DESC
+                }
+            });
+            dateHeader.setText("所有账单 (" + filtered.size() + "笔)");
         }
 
         adapter.setTransactions(filtered);

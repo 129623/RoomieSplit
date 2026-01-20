@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/background_light">
+    android:background="@color/app_background">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -26,8 +26,8 @@
                 android:layout_height="40dp"
                 android:background="?attr/selectableItemBackgroundBorderless"
                 android:src="@android:drawable/ic_menu_revert" 
-                android:tint="@color/black"
-                app:tint="@color/black" 
+                android:tint="@color/app_text_primary"
+                app:tint="@color/app_text_primary" 
                 android:contentDescription="Back" />
                 <!-- Using placeholder icon for back arrow -->
 
@@ -37,7 +37,7 @@
                 android:text="卫生博弈系统"
                 android:textSize="20sp"
                 android:textStyle="bold"
-                android:textColor="@color/black"
+                android:textColor="@color/app_text_primary"
                 android:layout_marginStart="8dp"/>
         </LinearLayout>
 
@@ -116,7 +116,7 @@
                     android:text="😇 主动干活 (攒人品)"
                     android:textSize="16sp"
                     android:textStyle="bold"
-                    android:textColor="@color/black"
+                    android:textColor="@color/app_text_primary"
                     android:layout_marginBottom="8dp"/>
 
                 <TextView
@@ -177,7 +177,7 @@
                     android:text="😈 命运轮盘 (选倒霉蛋)"
                     android:textSize="16sp"
                     android:textStyle="bold"
-                    android:textColor="@color/black"
+                    android:textColor="@color/app_text_primary"
                     android:layout_marginBottom="8dp"/>
 
                 <com.google.android.material.textfield.TextInputLayout

@@ -73,7 +73,11 @@ public class KarmaServiceImpl extends ServiceImpl<KarmaRecordMapper, KarmaRecord
         for (Long uid : userIds) {
             int points = userPoints.get(uid);
             // 简单的线性衰减模型：Weight = Max(5, 100 - points)
-            double weight = Math.max(5.0, 100.0 - points);
+            // 修改为平方级衰减：Weight = (Max(5, 100 - points))^2
+            // 效果：加大低RP（干活少）成员被抽中的概率
+            double baseWeight = Math.max(5.0, 100.0 - points);
+            double weight = Math.pow(baseWeight, 2.0);
+
             userWeights.put(uid, weight);
             totalWeight += weight;
         }

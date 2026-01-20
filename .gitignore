@@ -9,6 +9,10 @@ captures/
 *.apk
 *.ap_
 *.dex
+*.zip
+*.ps1
+*.txt
+*.py
 
 # App Module
 app/build/

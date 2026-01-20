@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:drawable="@android:color/white"/>
+    <item>
+        <inset 
+            android:drawable="@mipmap/app_icon_source_round" 
+            android:inset="20dp" />
+    </item>
+</layer-list>

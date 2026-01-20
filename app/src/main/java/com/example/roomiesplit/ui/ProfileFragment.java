@@ -464,56 +464,72 @@ public class ProfileFragment extends Fragment {
     }
 
     private void uploadImage(Uri imageUri) {
-        try {
-            // 1. Create temporary file
-            File file = new File(requireContext().getCacheDir(), "upload_avatar.jpg");
-            InputStream inputStream = requireContext().getContentResolver().openInputStream(imageUri);
-            FileOutputStream outputStream = new FileOutputStream(file);
-            byte[] buffer = new byte[1024];
-            int length;
-            while ((length = inputStream.read(buffer)) > 0) {
-                outputStream.write(buffer, 0, length);
+        new Thread(() -> {
+            try {
+                // Check if context is available
+                if (getContext() == null)
+                    return;
+
+                // 1. Create temporary file
+                File file = new File(requireContext().getCacheDir(), "upload_avatar.jpg");
+                InputStream inputStream = requireContext().getContentResolver().openInputStream(imageUri);
+                FileOutputStream outputStream = new FileOutputStream(file);
+                byte[] buffer = new byte[1024];
+                int length;
+                while ((length = inputStream.read(buffer)) > 0) {
+                    outputStream.write(buffer, 0, length);
+                }
+                outputStream.close();
+                inputStream.close();
+
+                // 2. Create MultipartBody.Part
+                RequestBody requestFile = RequestBody.create(MediaType.parse("image/*"), file);
+                MultipartBody.Part body = MultipartBody.Part.createFormData("file", file.getName(), requestFile);
+
+                // 3. Upload
+                if (getActivity() != null) {
+                    getActivity().runOnUiThread(() -> {
+                        Toast.makeText(requireContext(), "正在上传头像...", Toast.LENGTH_SHORT).show();
+                        apiService.uploadImage(body, true).enqueue(new Callback<JsonObject>() {
+                            @Override
+                            public void onResponse(retrofit2.Call<JsonObject> call, Response<JsonObject> response) {
+                                if (response.isSuccessful() && response.body() != null) {
+                                    JsonObject result = response.body();
+                                    if (result.get("code").getAsInt() == 200) {
+                                        JsonObject dataObj = result.getAsJsonObject("data");
+                                        String serverPath = dataObj.get("url").getAsString();
+                                        // Construct full URL (strip trailing slash from BASE_URL if present, serverPath
+                                        // already starts with /)
+                                        String fullUrl = AppConfig.BASE_URL.replaceAll("/$", "") + serverPath;
+
+                                        Log.d(TAG, "Upload success, url: " + fullUrl);
+                                        updateAvatarOnServer(fullUrl);
+                                    } else {
+                                        Toast.makeText(requireContext(), "上传失败: " + result.get("msg"),
+                                                Toast.LENGTH_SHORT).show();
+                                    }
+                                } else {
+                                    Toast.makeText(requireContext(), "上传失败: Server Error", Toast.LENGTH_SHORT).show();
+                                }
+                            }
+
+                            @Override
+                            public void onFailure(retrofit2.Call<JsonObject> call, Throwable t) {
+                                Toast.makeText(requireContext(), "上传网络错误: " + t.getMessage(), Toast.LENGTH_SHORT)
+                                        .show();
+                            }
+                        });
+                    });
+                }
+
+            } catch (Exception e) {
+                e.printStackTrace();
+                if (getActivity() != null) {
+                    getActivity().runOnUiThread(() -> Toast
+                            .makeText(requireContext(), "文件处理错误: " + e.getMessage(), Toast.LENGTH_SHORT).show());
+                }
             }
-            outputStream.close();
-            inputStream.close();
-
-            // 2. Create MultipartBody.Part
-            RequestBody requestFile = RequestBody.create(MediaType.parse("image/*"), file);
-            MultipartBody.Part body = MultipartBody.Part.createFormData("file", file.getName(), requestFile);
-
-            // 3. Upload
-            Toast.makeText(requireContext(), "正在上传头像...", Toast.LENGTH_SHORT).show();
-            apiService.uploadImage(body).enqueue(new Callback<JsonObject>() {
-                @Override
-                public void onResponse(retrofit2.Call<JsonObject> call, Response<JsonObject> response) {
-                    if (response.isSuccessful() && response.body() != null) {
-                        JsonObject result = response.body();
-                        if (result.get("code").getAsInt() == 200) {
-                            String serverPath = result.get("data").getAsString();
-                            // Construct full URL (strip trailing slash from BASE_URL if present, serverPath
-                            // already starts with /)
-                            String fullUrl = AppConfig.BASE_URL.replaceAll("/$", "") + serverPath;
-
-                            Log.d(TAG, "Upload success, url: " + fullUrl);
-                            updateAvatarOnServer(fullUrl);
-                        } else {
-                            Toast.makeText(requireContext(), "上传失败: " + result.get("msg"), Toast.LENGTH_SHORT).show();
-                        }
-                    } else {
-                        Toast.makeText(requireContext(), "上传失败: Server Error", Toast.LENGTH_SHORT).show();
-                    }
-                }
-
-                @Override
-                public void onFailure(retrofit2.Call<JsonObject> call, Throwable t) {
-                    Toast.makeText(requireContext(), "上传网络错误: " + t.getMessage(), Toast.LENGTH_SHORT).show();
-                }
-            });
-
-        } catch (Exception e) {
-            e.printStackTrace();
-            Toast.makeText(requireContext(), "文件处理错误: " + e.getMessage(), Toast.LENGTH_SHORT).show();
-        }
+        }).start();
     }
 
     private void performLogout() {

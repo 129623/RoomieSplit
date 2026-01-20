@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Semantic Colors for Dark Mode -->
+    <color name="app_background">@color/background_dark</color>
+    <color name="app_surface">@color/surface_dark</color>
+    <color name="app_text_primary">#FFFFFF</color>
+    <color name="app_text_secondary">#B0BEC5</color>
+    <color name="header_background">@color/surface_dark</color>
+
+    <!-- Dashboard Cards -->
+    <color name="card_food_bg">#2A1A10</color>
+    <color name="card_food_text">#FFCC80</color>
+    <color name="card_food_subtext">#FFB74D</color>
+    <color name="card_food_icon_tint">#FFB74D</color>
+
+    <color name="card_roulette_bg">#102025</color>
+    <color name="card_roulette_icon_tint">#4DD0E1</color>
+    <color name="card_roulette_subtext">#B0BEC5</color>
+    
+    <!-- Reuse Primary Colors if they don't change, or override -->
+    <!-- Assuming Primary Green looks okay in Dark Mode. If not, define lighter variant here. -->
+    
+    <!-- Form/Input Fields -->
+    <color name="input_field_bg">#1F2937</color>
+    <color name="smart_input_bg">#243440</color>
+    <color name="chip_bg_unselected">#374151</color>
+    <color name="chip_text_unselected">#9CA3AF</color>
+    <color name="tab_bg">#111827</color>
+</resources>

@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/background_light"
+    android:background="@color/app_background"
     tools:context=".ui.WelcomeFragment">
 
     <!-- Header / Logo Area -->
@@ -21,11 +21,10 @@
         app:layout_constraintVertical_bias="0.3">
 
         <ImageView
-            android:layout_width="80dp"
-            android:layout_height="80dp"
-            android:src="@drawable/ic_launcher_background"
-            android:backgroundTint="@color/primary"
-            android:padding="16dp"/>
+            android:layout_width="160dp"
+            android:layout_height="160dp"
+            android:src="@mipmap/ic_launcher"
+            android:padding="20dp"/>
         
         <TextView
             android:layout_width="wrap_content"
@@ -33,7 +32,7 @@
             android:text="室友通"
             android:textSize="32sp"
             android:textStyle="bold"
-            android:textColor="@color/black"
+            android:textColor="@color/app_text_primary"
             android:layout_marginTop="16dp"/>
 
         <TextView
@@ -66,7 +65,7 @@
         android:layout_height="60dp"
         android:text="已有账号登录"
         android:backgroundTint="@color/white"
-        android:textColor="@color/black"
+        android:textColor="@color/app_text_primary"
         android:textStyle="bold"
         android:layout_marginHorizontal="24dp"
         android:layout_marginBottom="16dp"

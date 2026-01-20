@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/background_light"
+    android:background="@color/app_background"
     tools:context=".MainActivity">
 
     <androidx.fragment.app.FragmentContainerView
@@ -23,7 +23,7 @@
         android:id="@+id/bottom_nav_view"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:background="@color/background_light"
+        android:background="@color/app_background"
         app:itemIconTint="@color/primary_dark"
         app:itemTextColor="@color/primary_dark"
         app:menu="@menu/bottom_nav_menu"
